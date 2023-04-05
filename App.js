@@ -23,8 +23,6 @@ export default function App() {
     clientId:
       "467455222369-0el706teprheq23e5rbqgvdf2lo9b7k4.apps.googleusercontent.com",
     scopes: ["profile", "email"],
-    usePKCE: false,
-    responseType: ResponseType.Token,
   });
 
   useEffect(() => {
