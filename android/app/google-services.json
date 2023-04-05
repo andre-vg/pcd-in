@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "467455222369",
+    "project_id": "pcd-in",
+    "storage_bucket": "pcd-in.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:467455222369:android:f49d16e5bed298c67dc020",
+        "android_client_info": {
+          "package_name": "com.pcdin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "467455222369-43o9ksl5f91isnqu9cpkh7pv9rk1oh1r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pcdin",
+            "certificate_hash": "25fad00fab39056b30575a5147ea0055b1345da6"
+          }
+        },
+        {
+          "client_id": "467455222369-o5eht9027p1vpqandh34a36no0gn21ul.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA05eqtiii8gVVQy8dXyaYKZyLDYHewj1o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "467455222369-0el706teprheq23e5rbqgvdf2lo9b7k4.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "467455222369-7886aq1e7c5p5uvjmmukisigmghgqn6n.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.pcdin"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

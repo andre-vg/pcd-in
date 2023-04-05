@@ -17,9 +17,11 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.pcdin"
+      "bundleIdentifier": "com.pcdin",
+      "googleServicesFile": "./GoogleService-Info.plist"
     },
     "android": {
+      "googleServicesFile": "./google-services.json",
       "versionCode": 2,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
@@ -30,6 +32,7 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
+    "plugins": ["@react-native-google-signin/google-signin"],
     "extra": {
       "eas": {
         "projectId": "8c415fea-488d-4ab1-a1f7-0538e8854a31"

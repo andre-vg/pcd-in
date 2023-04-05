@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
-import { StyleSheet, Text, View, Button, Image, Pressable } from "react-native";
+import { StyleSheet, Text, View, Button, Image, Pressable, Platform } from "react-native";
 import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
 import { useFonts, Lexend_400Regular } from "@expo-google-fonts/lexend";
+import { ResponseType, useAutoDiscovery } from "expo-auth-session";
+import { GoogleAuthProvider, signInWithCredential } from "firebase/auth/react-native";
+import { auth } from "./config/FirebaseConfig";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -11,7 +14,7 @@ export default function App() {
     Lexend_400Regular,
   });
 
-  const [token, setToken] = useState("AIzaSyDLRFyE-Z01UmC2uxCGQ8AZLp6lfAWAaYQ");
+  const [token, setToken] = useState();
   const [userInfo, setUserInfo] = useState(null);
 
   const [request, response, promptAsync] = Google.useAuthRequest({
@@ -20,31 +23,25 @@ export default function App() {
     clientId:
       "467455222369-0el706teprheq23e5rbqgvdf2lo9b7k4.apps.googleusercontent.com",
     scopes: ["profile", "email"],
+    usePKCE: false,
+    responseType: ResponseType.Token,
   });
 
   useEffect(() => {
     if (response?.type === "success") {
       setToken(response.authentication.accessToken);
-      getUserInfo();
     }
   }, [response, token]);
 
-  const getUserInfo = async () => {
-    try {
-      const response = await fetch(
-        "https://www.googleapis.com/userinfo/v2/me",
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-
-      const user = await response.json();
-      setUserInfo(user);
-    } catch (error) {
-      // Add your own error handler here
-      console.log(error);
+  useEffect(() => {
+    if (token) {
+      const credential = GoogleAuthProvider.credential(null, token)
+      signInWithCredential(auth, credential);
+      setTimeout(() => {
+        setUserInfo(auth.currentUser)
+      }, 1000);
     }
-  };
+  }, [token]);
 
   if (!fontsLoaded) {
     return <Text>Loading...</Text>;
@@ -69,14 +66,26 @@ export default function App() {
         ) : (
           <View style={styles.userInfo}>
             <Image
-              source={{ uri: userInfo.picture }}
+              source={{ uri: userInfo.photoURL}}
               style={styles.profilePic}
+              referrerPolicy="no-referrer"
             />
-            <Text style={styles.textoUser}>Bem-vindo {userInfo.name}</Text>
+            <Text style={styles.textoUser}>Bem-vindo {userInfo.displayName}</Text>
             <Text style={styles.textoUser}>{userInfo.email}</Text>
             <Text style={[styles.textoUser, { fontWeight: "600", fontSize: 24 }]}>
               Você está autorizado
             </Text>
+            <Pressable
+              style={styles.botao}
+              onPress={() => {
+                auth.signOut();
+                setUserInfo(null);
+              }}
+            >
+              <Text style={{ fontFamily: "Lexend_400Regular" }}>
+                Sair da conta
+              </Text>
+            </Pressable>
           </View>
         )}
       </View>
