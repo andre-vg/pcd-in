@@ -6,14 +6,14 @@ import Search from "./pages/Search";
 import { AntDesign } from "@expo/vector-icons";
 import Header from "./components/Header";
 
-export default function BottomTabs() {
+export default function BottomTabs({navigation}) {
   const Tab = createBottomTabNavigator();
   return (
     <Tab.Navigator
       initialRouteName="Home"
       screenOptions={{
         headerShown: true,
-        header: () => <Header />,
+        header: () => <Header navigation={navigation} />,
         tabBarShowLabel: false,
         tabBarStyle: {
           position: "absolute",

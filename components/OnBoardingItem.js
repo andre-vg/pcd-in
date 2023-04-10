@@ -50,8 +50,8 @@ export default function OnBoardingItem({ item, signIn }) {
       const credential = GoogleAuthProvider.credential(null, token);
       signInWithCredential(auth, credential);
       setTimeout(() => {
-          setUserInfo(auth.currentUser);
-          setLoading(false);
+        setUserInfo(auth.currentUser);
+        setLoading(false);
       }, 1000);
     }
   }, [token]);
@@ -103,12 +103,6 @@ export default function OnBoardingItem({ item, signIn }) {
               promptAsync();
             }}
           >
-            {/* <Image
-              style={{ width: 40, height: 40 }}
-              source={{
-                uri: "https://img.icons8.com/color/512/google-logo.png",
-              }}
-            /> */}
             <AntDesign name="google" size={30} color="#865DFF" />
             <Text style={{ fontFamily: "Lexend_400Regular", color: "#865DFF" }}>
               Entrar com a conta Google

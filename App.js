@@ -1,31 +1,29 @@
 import { StyleSheet, Text, View } from "react-native";
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import Onboarding from "./components/Onboarding";
 import { StatusBar } from "expo-status-bar";
-import { useFonts, Lexend_400Regular } from "@expo-google-fonts/lexend";
-import { auth } from "./config/FirebaseConfig";
+import { useFonts, Lexend_400Regular, Lexend_700Bold } from "@expo-google-fonts/lexend";
 import { NavigationContainer } from "@react-navigation/native";
-import Home from "./pages/Home";
 import BottomTabs from "./routes";
+import { getAuth } from "firebase/auth/react-native";
+import 'react-native-gesture-handler';
+import DrawerNav from "./DrawerNav";
 
 export default function App2() {
-  const [signedIn, setSignedIn] = React.useState(false);
+  const [signedIn, setSignedIn] = useState(false);
 
   let [fontsLoaded] = useFonts({
     Lexend_400Regular,
+    Lexend_700Bold
   });
 
-  useEffect(() => {
-    auth.onAuthStateChanged((user) => {
-      if (user) {
-        console.log("User is signed in");
-        setSignedIn(true);
-      } else {
-        console.log("User is signed out");
-        setSignedIn(false);
-      }
-    });
-  }, []);
+  getAuth().onAuthStateChanged((user) => {
+    if (user) {
+      setSignedIn(true);
+    } else {
+      setSignedIn(false);
+    }
+  });
 
   if (!fontsLoaded) {
     return <Text>Loading...</Text>;
@@ -33,14 +31,14 @@ export default function App2() {
     if (signedIn) {
       return (
         <NavigationContainer>
-          <BottomTabs />
+          <DrawerNav />
         </NavigationContainer>
       );
     } else {
       return (
         <View style={styles.container}>
           <Onboarding />
-          <StatusBar style="auto" />
+          <StatusBar style="auto" translucent />
         </View>
       );
     }
@@ -52,5 +50,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "#fff",
   },
 });

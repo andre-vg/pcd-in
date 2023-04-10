@@ -3,14 +3,15 @@ import React from "react";
 import { auth } from "../config/FirebaseConfig";
 import { AntDesign } from "@expo/vector-icons";
 
-export default function Header() {
-  //custom header with photo and name
+export default function Header({ navigation }) {
   return (
     <View style={styles.header}>
-      <Image
-        source={{ uri: auth.currentUser.photoURL }}
-        style={{ width: 50, height: 50, borderRadius: 50 }}
-      />
+      <Pressable onPress={() => navigation.openDrawer()}>
+        <Image
+          source={{ uri: auth.currentUser.photoURL }}
+          style={{ width: 50, height: 50, borderRadius: 50 }}
+        />
+      </Pressable>
       <Text style={styles.title}>PCD-IN</Text>
       <Pressable onPress={() => auth.signOut()}>
         <AntDesign name="logout" size={24} color="black" />
@@ -32,7 +33,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    fontFamily: "Lexend_400Regular",
+    fontFamily: "Lexend_700Bold",
     color: "#000",
-    },
+  },
 });
