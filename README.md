@@ -48,7 +48,7 @@ Tabela de  conteúdos
 
 
 # Clone este repositório
-$ git clone https://github.com/felipecal/Empregos-ja.git
+$ git clone https://github.com/andre-vg/pcd-in
 
 # Acesse a pasta do projeto no terminal/cmd
 cd Empregos-ja
