@@ -54,12 +54,12 @@ $ git clone https://github.com/andre-vg/pcd-in
 cd Empregos-ja
 
 # Instale as dependências
-$ yarn
+$ yarn <br>
 $ nvm use 18
 
-# Crie sua conta no Expo
-$ yarn expo register
-$ yarn expo login
+# Crie sua conta no Expo <br>
+$ yarn expo register <br>
+$ yarn expo login <br>
 
 # Rode o projeto
 $ yarn export start --clear
