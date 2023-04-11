@@ -5,7 +5,7 @@ then run the following commands:
 eas build --platform android
 
 <h1 align="center">PcD-in</h1>
-<p align="center">Desenvolvimento Web de procura de empregos</p>
+<p align="center">Desenvolvimento Mobile de procura de empregos</p>
 
 <h2 align="center"> 
 	🚧  Projeto em construção...  🚧
@@ -15,7 +15,7 @@ Tabela de  conteúdos
 =================
 <!--ts-->
    * [Sobre](#Sobre)
-      * Desenvolvimento web com o objetivo de facilitar a procura de emprego. Fazer com que o usuário procure um emprego dentro da área de atuação e localidade marcada pelo mesmo, disponibilizar uma parte para pessoas especiais, o qual tem muita dificuldade de encontrar emprego no mercado, com empresas que estão com vagas abertas especialmente para eles, facilitando mais a procura.
+      * Desenvolvimento Mobile com o objetivo de facilitar a procura de emprego. Fazer com que o usuário procure um emprego dentro da área de atuação e localidade marcada pelo mesmo, disponibilizar uma parte para pessoas especiais, o qual tem muita dificuldade de encontrar emprego no mercado, com empresas que estão com vagas abertas especialmente para eles, facilitando mais a procura.
       * Criar um sistema de cadastro e login tanto para o usuário que está procurando emprego quanto para a empresa a qual deseja contratar um novo empregado, dentro do mesmo disponibilizando para o usuário anexar o seu currículo para que fique mais fácil para a empresa localizar e olhar no sistema quais são os usuários que aplicaram na vaga e o currículo dos mesmos, para que fique uma melhor visualização e seleção. 
 	Caso o usuário deseje disponibilizar um campo para que ele escreva com o que da área a qual deseja trabalhar tem mais afinidade, sendo mais claro tanto para a empresa que quer contratar quanto para o usuário. Também deixando disponível para o usuário que apenas quer encontrar um emprego, deixar para ele escrever que por mais que tenha um conhecimento básico da área, que tem interesse em trabalhar na empresa e que está disponível para aprender coisas que ajude tanto a empresa quanto a ele(a).
 
@@ -54,7 +54,15 @@ $ git clone https://github.com/andre-vg/pcd-in
 cd Empregos-ja
 
 # Instale as dependências
-$ npm install
+$ yarn
+$ nvm use 18
+
+# Crie sua conta no Expo
+$ yarn expo register
+$ yarn expo login
+
+# Rode o projeto
+$ yarn export start --clear
 
 ## License
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
