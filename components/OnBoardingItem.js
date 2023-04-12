@@ -17,6 +17,7 @@ import {
 } from "firebase/auth/react-native";
 import { auth } from "../config/FirebaseConfig";
 import { AntDesign } from "@expo/vector-icons";
+import { COLORS } from "../constants";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -72,7 +73,7 @@ export default function OnBoardingItem({ item, signIn }) {
             <TextInput
               style={focus.email ? styles.inputFocus : styles.input}
               placeholder="Email"
-              placeholderTextColor="#865DFF"
+              placeholderTextColor={COLORS.PRIMARY}
               //change backgroun color when focus
               onFocus={() => {
                 setFocus({ email: true });
@@ -84,7 +85,7 @@ export default function OnBoardingItem({ item, signIn }) {
             <TextInput
               style={focus.senha ? styles.inputFocus : styles.input}
               placeholder="Senha"
-              placeholderTextColor="#865DFF"
+              placeholderTextColor={COLORS.PRIMARY}
               onFocus={() => {
                 setFocus({ senha: true });
               }}
@@ -103,8 +104,8 @@ export default function OnBoardingItem({ item, signIn }) {
               promptAsync();
             }}
           >
-            <AntDesign name="google" size={30} color="#865DFF" />
-            <Text style={{ fontFamily: "Lexend_400Regular", color: "#865DFF" }}>
+            <AntDesign name="google" size={30} color={COLORS.PRIMARY} />
+            <Text style={{ fontFamily: "Lexend_400Regular", color: COLORS.PRIMARY }}>
               Entrar com a conta Google
             </Text>
           </Pressable>
@@ -146,7 +147,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     borderWidth: 0.5,
-    borderColor: "#865DFF",
+    borderColor: COLORS.PRIMARY,
     backgroundColor: "#fff",
     borderRadius: 10,
     paddingHorizontal: 20,
@@ -171,7 +172,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: "#865DFF",
+    borderColor: COLORS.PRIMARY,
     padding: 10,
     fontFamily: "Lexend_400Regular",
   },

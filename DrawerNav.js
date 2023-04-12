@@ -6,7 +6,14 @@ const Drawer = createDrawerNavigator();
 
 export default function DrawerNav() {
   return (
-    <Drawer.Navigator drawerContent={()=><DrawerComponent />}>
+    <Drawer.Navigator
+      drawerContent={() => <DrawerComponent />}
+      screenOptions={{
+        drawerStyle:{
+          backgroundColor: "transparent",
+        }
+      }}
+    >
       <Drawer.Screen
         name="tab"
         component={BottomTabs}
