@@ -2,6 +2,7 @@ export const COLORS = {
   PRIMARY: "#865DFF",
   SECONDARY: "#fff",
   THIRD: "#000",
+  LIGHT: "#fff",
 };
 
 export const RGBA = {

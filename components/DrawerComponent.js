@@ -24,7 +24,7 @@ export default function DrawerComponent({ navigation }) {
       </Text>
       <Text>{navigation}</Text>
       
-      <AntDesign style={styles.config} name="setting" size={32} color={COLORS.LIGHT} onPress />
+      <AntDesign style={styles.config} name="setting" size={32} color={COLORS.LIGHT} />
     </View>
   );
 }

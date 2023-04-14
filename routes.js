@@ -6,7 +6,7 @@ import Search from "./pages/Search";
 import { AntDesign } from "@expo/vector-icons";
 import Header from "./components/Header";
 
-export default function BottomTabs({navigation}) {
+export default function BottomTabs({ navigation }) {
   const Tab = createBottomTabNavigator();
   return (
     <Tab.Navigator
@@ -18,9 +18,9 @@ export default function BottomTabs({navigation}) {
         tabBarStyle: {
           position: "absolute",
           bottom: 25,
-          left: 100,
-          right: 100,
-          elevation: 6,
+          left: 120,
+          right: 120,
+          elevation: 3,
           backgroundColor: "#ffffff",
           borderRadius: 15,
           height: 60,
@@ -41,7 +41,7 @@ export default function BottomTabs({navigation}) {
             >
               <AntDesign
                 name="home"
-                size={24}
+                size={32}
                 color={focused ? "#865DFF" : "#748c94"}
               />
             </View>
@@ -61,7 +61,7 @@ export default function BottomTabs({navigation}) {
             >
               <AntDesign
                 name="search1"
-                size={24}
+                size={32}
                 color={focused ? "#865DFF" : "#748c94"}
               />
             </View>
