@@ -2,6 +2,7 @@ import { Image, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { auth } from "../config/FirebaseConfig";
 import { COLORS } from "../constants";
+import { AntDesign } from '@expo/vector-icons';
 
 export default function DrawerComponent({ navigation }) {
   return (
@@ -22,6 +23,8 @@ export default function DrawerComponent({ navigation }) {
         {auth.currentUser.email}
       </Text>
       <Text>{navigation}</Text>
+      
+      <AntDesign style={styles.config} name="setting" size={32} color={COLORS.LIGHT} onPress />
     </View>
   );
 }
@@ -41,4 +44,9 @@ const styles = StyleSheet.create({
   text: {
     fontFamily: "Lexend_400Regular",
   },
+  config:{
+    position: "absolute",
+    bottom: 30,
+    left: 30,
+  }
 });
