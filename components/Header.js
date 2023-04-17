@@ -1,7 +1,6 @@
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { auth } from "../config/FirebaseConfig";
-import { AntDesign } from "@expo/vector-icons";
 
 export default function Header({ navigation }) {
   return (
@@ -13,9 +12,6 @@ export default function Header({ navigation }) {
         />
       </Pressable>
       <Text style={styles.title}>PCD-IN</Text>
-      <Pressable onPress={() => auth.signOut()}>
-        <AntDesign name="logout" size={24} color="black" />
-      </Pressable>
     </View>
   );
 }

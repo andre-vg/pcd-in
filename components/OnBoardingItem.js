@@ -6,6 +6,7 @@ import {
   View,
   Text,
   StyleSheet,
+  ToastAndroid,
 } from "react-native";
 import { useEffect, useState } from "react";
 
@@ -13,7 +14,9 @@ import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
 import {
   GoogleAuthProvider,
+  getAuth,
   signInWithCredential,
+  signInWithEmailAndPassword,
 } from "firebase/auth/react-native";
 import { auth } from "../config/FirebaseConfig";
 import { AntDesign } from "@expo/vector-icons";
@@ -31,6 +34,9 @@ export default function OnBoardingItem({ item, signIn }) {
   const [userInfo, setUserInfo] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
+
   const [request, response, promptAsync] = Google.useAuthRequest({
     androidClientId:
       "467455222369-43o9ksl5f91isnqu9cpkh7pv9rk1oh1r.apps.googleusercontent.com",
@@ -38,6 +44,19 @@ export default function OnBoardingItem({ item, signIn }) {
       "467455222369-0el706teprheq23e5rbqgvdf2lo9b7k4.apps.googleusercontent.com",
     scopes: ["profile", "email"],
   });
+
+  const signInEmpresa = async () => {
+    const auth = getAuth();
+    signInWithEmailAndPassword(auth, email, senha)
+      .then((userCredential) => {})
+      .catch((error) => {
+        ToastAndroid.showWithGravity(
+          error.message,
+          ToastAndroid.SHORT,
+          ToastAndroid.CENTER
+        );
+      });
+  };
 
   useEffect(() => {
     if (response?.type === "success") {
@@ -74,6 +93,9 @@ export default function OnBoardingItem({ item, signIn }) {
               style={focus.email ? styles.inputFocus : styles.input}
               placeholder="Email"
               placeholderTextColor={COLORS.PRIMARY}
+              onChangeText={(text) => {
+                setEmail(text);
+              }}
               //change backgroun color when focus
               onFocus={() => {
                 setFocus({ email: true });
@@ -84,8 +106,12 @@ export default function OnBoardingItem({ item, signIn }) {
             />
             <TextInput
               style={focus.senha ? styles.inputFocus : styles.input}
+              secureTextEntry={true}
               placeholder="Senha"
               placeholderTextColor={COLORS.PRIMARY}
+              onChangeText={(text) => {
+                setSenha(text);
+              }}
               onFocus={() => {
                 setFocus({ senha: true });
               }}
@@ -93,9 +119,36 @@ export default function OnBoardingItem({ item, signIn }) {
                 setFocus({ senha: false });
               }}
             />
+            <Pressable
+              style={{
+                display: "flex",
+                width: "70%",
+                height: 50,
+                backgroundColor: COLORS.PRIMARY,
+                borderRadius: 10,
+                borderWidth: 1,
+                borderColor: "rgba(134, 93, 255, 0.2)",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+              onPress={() => {
+                signInEmpresa();
+              }}
+            >
+              <Text
+                style={{
+                  fontFamily: "Lexend_400Regular",
+                  color: COLORS.LIGHT,
+                  fontSize: 16,
+                }}
+              >
+                Entrar
+              </Text>
+            </Pressable>
           </View>
           <Text style={styles.textRegister}>
-            ────────────────── Ou ──────────────────
+            Ainda não tem uma conta?{" "}
+            <Text style={{ color: COLORS.PRIMARY, textDecorationLine: 'underline' }}>A FAZER Cadastre-se</Text>
           </Text>
           <Pressable
             style={styles.botao}
@@ -105,7 +158,9 @@ export default function OnBoardingItem({ item, signIn }) {
             }}
           >
             <AntDesign name="google" size={30} color={COLORS.PRIMARY} />
-            <Text style={{ fontFamily: "Lexend_400Regular", color: COLORS.PRIMARY }}>
+            <Text
+              style={{ fontFamily: "Lexend_400Regular", color: COLORS.PRIMARY }}
+            >
               Entrar com a conta Google
             </Text>
           </Pressable>
@@ -136,7 +191,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontFamily: "Lexend_400Regular",
     textAlign: "center",
-    paddingHorizontal: 64,
+    paddingHorizontal: 48,
   },
   botao: {
     width: "70%",
@@ -148,7 +203,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderWidth: 0.5,
     borderColor: COLORS.PRIMARY,
-    backgroundColor: "#fff",
+    backgroundColor: COLORS.LIGHT,
     borderRadius: 10,
     paddingHorizontal: 20,
     paddingVertical: 5,
@@ -159,7 +214,7 @@ const styles = StyleSheet.create({
   input: {
     width: "70%",
     height: 50,
-    backgroundColor: "#fff",
+    backgroundColor: COLORS.LIGHT,
     borderRadius: 10,
     borderWidth: 1,
     borderColor: "rgba(134, 93, 255, 0.2)",
@@ -169,7 +224,7 @@ const styles = StyleSheet.create({
   inputFocus: {
     width: "70%",
     height: 50,
-    backgroundColor: "#fff",
+    backgroundColor: COLORS.LIGHT,
     borderRadius: 10,
     borderWidth: 1,
     borderColor: COLORS.PRIMARY,
@@ -178,7 +233,7 @@ const styles = StyleSheet.create({
   },
   textRegister: {
     fontFamily: "Lexend_400Regular",
-    fontSize: 10,
+    fontSize: 12,
   },
   divInputs: {
     display: "flex",

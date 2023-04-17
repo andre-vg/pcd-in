@@ -2,19 +2,23 @@ import { StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
 import Onboarding from "./components/Onboarding";
 import { StatusBar } from "expo-status-bar";
-import { useFonts, Lexend_400Regular, Lexend_700Bold } from "@expo-google-fonts/lexend";
+import {
+  useFonts,
+  Lexend_400Regular,
+  Lexend_700Bold,
+} from "@expo-google-fonts/lexend";
 import { NavigationContainer } from "@react-navigation/native";
-import BottomTabs from "./routes";
 import { getAuth } from "firebase/auth/react-native";
-import 'react-native-gesture-handler';
+import "react-native-gesture-handler";
 import DrawerNav from "./DrawerNav";
+import { COLORS } from "./constants";
 
 export default function App2() {
   const [signedIn, setSignedIn] = useState(false);
 
   let [fontsLoaded] = useFonts({
     Lexend_400Regular,
-    Lexend_700Bold
+    Lexend_700Bold,
   });
 
   getAuth().onAuthStateChanged((user) => {
@@ -50,6 +54,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#fff",
+    backgroundColor: COLORS.LIGHT,
   },
 });
