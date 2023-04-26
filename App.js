@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Onboarding from "./components/Onboarding";
 import { StatusBar } from "expo-status-bar";
 import {
@@ -12,6 +12,15 @@ import { getAuth } from "firebase/auth/react-native";
 import "react-native-gesture-handler";
 import DrawerNav from "./DrawerNav";
 import { COLORS } from "./constants";
+import * as SecureStore from "expo-secure-store";
+
+SecureStore.setItemAsync("Theme", {
+  PRIMARY: "#865DFF",
+  SECONDARY: "#fff",
+  THIRD: "#000",
+  LIGHT: "#fff",
+});
+let theme = SecureStore.getItemAsync("Theme");
 
 export default function App2() {
   const [signedIn, setSignedIn] = useState(false);
@@ -20,6 +29,10 @@ export default function App2() {
     Lexend_400Regular,
     Lexend_700Bold,
   });
+
+  useEffect(() => {
+    console.log(theme);
+  }, [theme]);
 
   getAuth().onAuthStateChanged((user) => {
     if (user) {

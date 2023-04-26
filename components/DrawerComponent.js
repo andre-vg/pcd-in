@@ -10,6 +10,7 @@ import { auth } from "../config/FirebaseConfig";
 import { COLORS } from "../constants";
 import { AntDesign } from "@expo/vector-icons";
 import { Modalize } from "react-native-modalize";
+import Config from "./Config";
 
 export default function DrawerComponent({ navigation }) {
   const { width } = useWindowDimensions();
@@ -60,7 +61,6 @@ export default function DrawerComponent({ navigation }) {
           color={COLORS.LIGHT}
           onPress={() => auth.signOut()}
         />
-
       </View>
       <Modalize
         ref={modalizeRef}
@@ -75,17 +75,15 @@ export default function DrawerComponent({ navigation }) {
         rootStyle={{
           width,
         }}
+        handleStyle={{
+          backgroundColor: "#fff",
+          width: 64,
+          height: 4,
+          borderRadius: 4,
+          alignSelf: "center",
+        }}
       >
-        <View
-          style={{
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "center",
-            marginTop: 30,
-          }}
-        >
-          <Text>Modal</Text>
-        </View>
+        <Config />
       </Modalize>
     </>
   );
@@ -114,6 +112,6 @@ const styles = StyleSheet.create({
   logOut: {
     position: "absolute",
     bottom: 30,
-    right: 30,  
+    right: 30,
   },
 });
