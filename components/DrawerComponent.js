@@ -59,12 +59,12 @@ export default function DrawerComponent({ navigation }) {
             height: 64,
             borderRadius: 50,
             borderWidth: 2,
-            borderColor: COLORS.SECONDARY,
+            borderColor: COLORS.DARKWHITE,
           }}
         />
         <Text
           style={[
-            { color: COLORS.SECONDARY, fontSize: 24, marginTop: 8 },
+            { color: COLORS.DARKWHITE, fontSize: 24, marginTop: 8 },
             styles.title,
           ]}
         >
@@ -72,7 +72,7 @@ export default function DrawerComponent({ navigation }) {
         </Text>
         <Text
           style={[
-            { color: COLORS.SECONDARY, fontSize: 16, marginTop: 4 },
+            { color: COLORS.DARKWHITE, fontSize: 16, marginTop: 4 },
             styles.text,
           ]}
           onPress={() => navigation.goBack()}
@@ -84,7 +84,7 @@ export default function DrawerComponent({ navigation }) {
           style={styles.config}
           name="setting"
           size={32}
-          color={COLORS.SECONDARY}
+          color={COLORS.DARKWHITE}
           onPress={() => onOpen()}
         /> */}
 
@@ -92,7 +92,7 @@ export default function DrawerComponent({ navigation }) {
           name="accessibility-new"
           size={36}
           style={styles.config}
-          color={COLORS.SECONDARY}
+          color={COLORS.DARKWHITE}
           onPress={() => onOpen()}
         />
 
@@ -100,7 +100,7 @@ export default function DrawerComponent({ navigation }) {
           name="logout"
           style={styles.logOut}
           size={28}
-          color={COLORS.SECONDARY}
+          color={COLORS.DARKWHITE}
           onPress={() => auth.signOut()}
         />
       </View>

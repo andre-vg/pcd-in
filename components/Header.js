@@ -1,8 +1,28 @@
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
 import { auth } from "../config/FirebaseConfig";
+import { ThemeContext } from "../App";
 
 export default function Header({ navigation }) {
+  const { COLORS } = useContext(ThemeContext);
+
+
+  const styles = StyleSheet.create({
+    header: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      paddingHorizontal: 15,
+      height: 70,
+      backgroundColor: COLORS.PRIMARY,
+    },
+    title: {
+      fontSize: 20,
+      fontFamily: "Lexend_700Bold",
+      color: COLORS.DARKWHITE,
+    },
+  });
+
   return (
     <View style={styles.header}>
       <Pressable onPress={() => navigation.openDrawer()}>
@@ -16,20 +36,4 @@ export default function Header({ navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
-  header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingHorizontal: 15,
-    height: 70,
-    backgroundColor: "#fff",
-    borderBottomWidth: 1,
-    borderBottomColor: "#e2e2e2",
-  },
-  title: {
-    fontSize: 20,
-    fontFamily: "Lexend_700Bold",
-    color: "#000",
-  },
-});
+

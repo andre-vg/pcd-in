@@ -109,7 +109,7 @@ export default function OnBoardingItem({ item, signIn }) {
       alignItems: "center",
       borderWidth: 0.5,
       borderColor: COLORS.PRIMARY,
-      backgroundColor: COLORS.LIGHT,
+      backgroundColor: "#fff",
       borderRadius: 10,
       paddingHorizontal: 20,
       paddingVertical: 5,
@@ -120,7 +120,7 @@ export default function OnBoardingItem({ item, signIn }) {
     input: {
       width: "70%",
       height: 50,
-      backgroundColor: COLORS.LIGHT,
+      backgroundColor: "#fff",
       borderRadius: 10,
       borderWidth: 1,
       borderColor: "rgba(134, 93, 255, 0.2)",
@@ -213,7 +213,7 @@ export default function OnBoardingItem({ item, signIn }) {
               <Text
                 style={{
                   fontFamily: "Lexend_400Regular",
-                  color: COLORS.LIGHT,
+                  color: "#fff",
                   fontSize: 16,
                 }}
               >

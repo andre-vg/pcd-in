@@ -1,8 +1,8 @@
 import { StyleSheet, Text, View } from "react-native";
 import Checkbox from "expo-checkbox";
 import React, { useContext, useEffect, useState } from "react";
-import * as SecureStore from "expo-secure-store";
 import { ThemeContext } from "../App";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Config() {
   const [isCheckedDarkMode, setCheckedDarkMode] = useState(false);
@@ -11,7 +11,7 @@ export default function Config() {
   const { COLORS, setCOLORS } = useContext(ThemeContext);
 
   useEffect(() => {
-    SecureStore.getItemAsync("Theme").then((theme) => {
+    AsyncStorage.getItem("Theme").then((theme) => {
       handleChangeMode(theme);
     });
   }, []);
@@ -19,12 +19,13 @@ export default function Config() {
   const handleChangeMode = (mode) => {
     if (mode === "dark") {
       setCOLORS({
-        PRIMARY: "#4A10A8",
-        SECONDARY: "#fff",
-        THIRD: "#2D2327",
+        PRIMARY: "#271D3F",
+        SECONDARY: "#6D4693",
+        THIRD: "#333533",
         LIGHT: "#000",
+        DARKWHITE: "#fff",
       });
-      SecureStore.setItemAsync("Theme", "dark");
+      AsyncStorage.setItem("Theme", "dark");
       setCheckedDeuteranopia(false);
       setCheckedBrightMode(false);
       setCheckedDarkMode(true);
@@ -32,11 +33,12 @@ export default function Config() {
     if (mode === "light") {
       setCOLORS({
         PRIMARY: "#A385FF",
-        SECONDARY: "#000",
+        SECONDARY: "#C5A6E3",
         THIRD: "#865DFF",
         LIGHT: "#fff",
+        DARKWHITE: "#000",
       });
-      SecureStore.setItemAsync("Theme", "light");
+      AsyncStorage.setItem("Theme", "light");
       setCheckedDeuteranopia(false);
       setCheckedBrightMode(true);
       setCheckedDarkMode(false);
@@ -47,8 +49,9 @@ export default function Config() {
         SECONDARY: "#fce894",
         THIRD: "#145ac0",
         LIGHT: "#fff",
+        DARKWHITE: "#fff",
       });
-      SecureStore.setItemAsync("Theme", "deuteranopia");
+      AsyncStorage.setItem("Theme", "deuteranopia");
       setCheckedDeuteranopia(true);
       setCheckedBrightMode(false);
       setCheckedDarkMode(false);
@@ -66,7 +69,7 @@ export default function Config() {
     },
     text: {
       fontSize: 20,
-      color: COLORS.SECONDARY,
+      color: COLORS.DARKWHITE,
       fontFamily: "Lexend_700Bold",
     },
     checkbox: {
@@ -92,7 +95,7 @@ export default function Config() {
           onValueChange={(e) => {
             e ? handleChangeMode("light") : null;
           }}
-          color={isCheckedBrightMode ? COLORS.THIRD : COLORS.SECONDARY}
+          color={isCheckedBrightMode ? COLORS.SECONDARY : COLORS.DARKWHITE}
         />
       </View>
 
@@ -104,7 +107,7 @@ export default function Config() {
           onValueChange={(e) => {
             e ? handleChangeMode("dark") : null;
           }}
-          color={isCheckedDarkMode ? COLORS.THIRD : COLORS.SECONDARY}
+          color={isCheckedDarkMode ? COLORS.SECONDARY : COLORS.DARKWHITE}
         />
       </View>
 
@@ -116,7 +119,7 @@ export default function Config() {
           onValueChange={(e) => {
             e ? handleChangeMode("deuteranopia") : null;
           }}
-          color={isCheckedDeuteranopia ? COLORS.THIRD : COLORS.SECONDARY}
+          color={isCheckedDeuteranopia ? COLORS.SECONDARY : COLORS.DARKWHITE}
         />
       </View>
     </View>

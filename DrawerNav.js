@@ -6,15 +6,15 @@ import { useWindowDimensions } from "react-native";
 const Drawer = createDrawerNavigator();
 
 export default function DrawerNav() {
-  const {width} = useWindowDimensions();
+  const { width } = useWindowDimensions();
   return (
     <Drawer.Navigator
       drawerContent={() => <DrawerComponent />}
       screenOptions={{
-        drawerStyle:{
+        drawerStyle: {
           backgroundColor: "transparent",
         },
-        swipeEdgeWidth: width / 4 * 3,
+        swipeEdgeWidth: (width / 4) * 3,
       }}
     >
       <Drawer.Screen

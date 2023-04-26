@@ -12,7 +12,7 @@ import { getAuth } from "firebase/auth/react-native";
 import "react-native-gesture-handler";
 import DrawerNav from "./DrawerNav";
 import { COLORS } from "./constants";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const ThemeContext = React.createContext();
 
@@ -24,6 +24,39 @@ export default function App2() {
     THIRD: "#865DFF",
     LIGHT: "#fff",
   });
+
+  useEffect(() => {
+    AsyncStorage.getItem("Theme").then((mode) => {
+      console.log("mode", mode);
+      if (mode === "dark") {
+        setCOLORS({
+          PRIMARY: "#271D3F",
+          SECONDARY: "#6D4693",
+          THIRD: "#333533",
+          LIGHT: "#000",
+          DARKWHITE: "#fff",
+        });
+      }
+      if (mode === "light") {
+        setCOLORS({
+          PRIMARY: "#A385FF",
+          SECONDARY: "#000",
+          THIRD: "#865DFF",
+          LIGHT: "#fff",
+          DARKWHITE: "#000",
+        });
+      }
+      if (mode === "deuteranopia") {
+        setCOLORS({
+          PRIMARY: "#7c4bf4",
+          SECONDARY: "#fce894",
+          THIRD: "#145ac0",
+          LIGHT: "#fff",
+          DARKWHITE: "#fff",
+        });
+      }
+    });
+  }, []);
 
   let [fontsLoaded] = useFonts({
     Lexend_400Regular,
