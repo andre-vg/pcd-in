@@ -5,20 +5,49 @@ import {
   View,
   useWindowDimensions,
 } from "react-native";
-import React, { useRef } from "react";
+import React, { useContext, useRef } from "react";
 import { auth } from "../config/FirebaseConfig";
-import { COLORS } from "../constants";
-import { AntDesign } from "@expo/vector-icons";
+import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import { Modalize } from "react-native-modalize";
 import Config from "./Config";
+import { ThemeContext } from "../App";
 
 export default function DrawerComponent({ navigation }) {
   const { width } = useWindowDimensions();
+  const { COLORS, setCOLORS } = useContext(ThemeContext);
+
   const modalizeRef = useRef(null);
 
   const onOpen = () => {
     modalizeRef.current?.open();
   };
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      paddingHorizontal: 24,
+      paddingVertical: 64,
+      backgroundColor: COLORS.PRIMARY,
+      borderTopRightRadius: 32,
+      borderBottomRightRadius: 32,
+    },
+    title: {
+      fontFamily: "Lexend_700Bold",
+    },
+    text: {
+      fontFamily: "Lexend_400Regular",
+    },
+    config: {
+      position: "absolute",
+      bottom: 30,
+      left: 30,
+    },
+    logOut: {
+      position: "absolute",
+      bottom: 30,
+      right: 30,
+    },
+  });
 
   return (
     <>
@@ -34,23 +63,36 @@ export default function DrawerComponent({ navigation }) {
           }}
         />
         <Text
-          style={[{ color: "#fff", fontSize: 24, marginTop: 8 }, styles.title]}
+          style={[
+            { color: COLORS.SECONDARY, fontSize: 24, marginTop: 8 },
+            styles.title,
+          ]}
         >
           {auth.currentUser.displayName}
         </Text>
         <Text
-          style={[{ color: "#fff", fontSize: 16, marginTop: 4 }, styles.text]}
+          style={[
+            { color: COLORS.SECONDARY, fontSize: 16, marginTop: 4 },
+            styles.text,
+          ]}
           onPress={() => navigation.goBack()}
         >
           {auth.currentUser.email}
         </Text>
-        <Text>{navigation}</Text>
 
-        <AntDesign
+        {/* <AntDesign
           style={styles.config}
           name="setting"
           size={32}
-          color={COLORS.LIGHT}
+          color={COLORS.SECONDARY}
+          onPress={() => onOpen()}
+        /> */}
+
+        <MaterialIcons
+          name="accessibility-new"
+          size={36}
+          style={styles.config}
+          color={COLORS.SECONDARY}
           onPress={() => onOpen()}
         />
 
@@ -58,7 +100,7 @@ export default function DrawerComponent({ navigation }) {
           name="logout"
           style={styles.logOut}
           size={28}
-          color={COLORS.LIGHT}
+          color={COLORS.SECONDARY}
           onPress={() => auth.signOut()}
         />
       </View>
@@ -88,30 +130,3 @@ export default function DrawerComponent({ navigation }) {
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingHorizontal: 24,
-    paddingVertical: 64,
-    backgroundColor: COLORS.PRIMARY,
-    borderTopRightRadius: 32,
-    borderBottomRightRadius: 32,
-  },
-  title: {
-    fontFamily: "Lexend_700Bold",
-  },
-  text: {
-    fontFamily: "Lexend_400Regular",
-  },
-  config: {
-    position: "absolute",
-    bottom: 30,
-    left: 30,
-  },
-  logOut: {
-    position: "absolute",
-    bottom: 30,
-    right: 30,
-  },
-});

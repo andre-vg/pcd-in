@@ -4,11 +4,22 @@ import {
   useWindowDimensions,
   View,
 } from "react-native";
-import React from "react";
-import { COLORS } from "../constants";
+import React, { useContext } from "react";
+import { ThemeContext } from "../App";
 
 export default function Paginator({ data, scrollX, keyboard }) {
   const { width } = useWindowDimensions();
+  const { COLORS, setCOLORS } = useContext(ThemeContext);
+
+  const styles = StyleSheet.create({
+    dot: {
+      height: 10,
+      borderRadius: 5,
+      backgroundColor: COLORS.PRIMARY,
+      marginHorizontal: 8,
+    },
+  });
+
   return (
     <View style={{ flexDirection: "row", height: 60, display: !keyboard ? 'flex' : 'none' }}>
       {data.map((_, i) => {
@@ -34,11 +45,4 @@ export default function Paginator({ data, scrollX, keyboard }) {
   );
 }
 
-const styles = StyleSheet.create({
-  dot: {
-    height: 10,
-    borderRadius: 5,
-    backgroundColor: COLORS.PRIMARY,
-    marginHorizontal: 8,
-  },
-});
+

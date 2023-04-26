@@ -8,7 +8,7 @@ import {
   StyleSheet,
   ToastAndroid,
 } from "react-native";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
@@ -20,11 +20,11 @@ import {
 } from "firebase/auth/react-native";
 import { auth } from "../config/FirebaseConfig";
 import { AntDesign } from "@expo/vector-icons";
-import { COLORS } from "../constants";
-
+import { ThemeContext } from "../App";
 WebBrowser.maybeCompleteAuthSession();
 
 export default function OnBoardingItem({ item, signIn }) {
+  const { COLORS, setCOLORS } = useContext(ThemeContext);
   const { width } = useWindowDimensions();
   const [focus, setFocus] = useState({
     email: false,
@@ -75,6 +75,81 @@ export default function OnBoardingItem({ item, signIn }) {
       }, 1000);
     }
   }, [token]);
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    image: {
+      flex: 0.5,
+      justifyContent: "center",
+    },
+    title: {
+      fontSize: 27,
+      fontFamily: "Lexend_400Regular",
+      marginBottom: 10,
+      textAlign: "center",
+      paddingHorizontal: 32,
+    },
+    text: {
+      fontSize: 15,
+      fontFamily: "Lexend_400Regular",
+      textAlign: "center",
+      paddingHorizontal: 48,
+    },
+    botao: {
+      width: "70%",
+      height: 50,
+      display: "flex",
+      flexDirection: "row",
+      gap: 20,
+      justifyContent: "space-between",
+      alignItems: "center",
+      borderWidth: 0.5,
+      borderColor: COLORS.PRIMARY,
+      backgroundColor: COLORS.LIGHT,
+      borderRadius: 10,
+      paddingHorizontal: 20,
+      paddingVertical: 5,
+      marginVertical: 20,
+      fontFamily: "Lexend_400Regular",
+      fontSize: 15,
+    },
+    input: {
+      width: "70%",
+      height: 50,
+      backgroundColor: COLORS.LIGHT,
+      borderRadius: 10,
+      borderWidth: 1,
+      borderColor: "rgba(134, 93, 255, 0.2)",
+      padding: 10,
+      fontFamily: "Lexend_400Regular",
+    },
+    inputFocus: {
+      width: "70%",
+      height: 50,
+      backgroundColor: COLORS.LIGHT,
+      borderRadius: 10,
+      borderWidth: 1,
+      borderColor: COLORS.PRIMARY,
+      padding: 10,
+      fontFamily: "Lexend_400Regular",
+    },
+    textRegister: {
+      fontFamily: "Lexend_400Regular",
+      fontSize: 12,
+    },
+    divInputs: {
+      display: "flex",
+      gap: 20,
+      width: "100%",
+      alignItems: "center",
+      justifyContent: "center",
+      marginBottom: 20,
+    },
+  });
 
   return (
     <View style={[styles.container, { width }]}>
@@ -148,7 +223,11 @@ export default function OnBoardingItem({ item, signIn }) {
           </View>
           <Text style={styles.textRegister}>
             Ainda não tem uma conta?{" "}
-            <Text style={{ color: COLORS.PRIMARY, textDecorationLine: 'underline' }}>A FAZER Cadastre-se</Text>
+            <Text
+              style={{ color: COLORS.PRIMARY, textDecorationLine: "underline" }}
+            >
+              A FAZER Cadastre-se
+            </Text>
           </Text>
           <Pressable
             style={styles.botao}
@@ -169,78 +248,3 @@ export default function OnBoardingItem({ item, signIn }) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  image: {
-    flex: 0.5,
-    justifyContent: "center",
-  },
-  title: {
-    fontSize: 27,
-    fontFamily: "Lexend_400Regular",
-    marginBottom: 10,
-    textAlign: "center",
-    paddingHorizontal: 32,
-  },
-  text: {
-    fontSize: 15,
-    fontFamily: "Lexend_400Regular",
-    textAlign: "center",
-    paddingHorizontal: 48,
-  },
-  botao: {
-    width: "70%",
-    height: 50,
-    display: "flex",
-    flexDirection: "row",
-    gap: 20,
-    justifyContent: "space-between",
-    alignItems: "center",
-    borderWidth: 0.5,
-    borderColor: COLORS.PRIMARY,
-    backgroundColor: COLORS.LIGHT,
-    borderRadius: 10,
-    paddingHorizontal: 20,
-    paddingVertical: 5,
-    marginVertical: 20,
-    fontFamily: "Lexend_400Regular",
-    fontSize: 15,
-  },
-  input: {
-    width: "70%",
-    height: 50,
-    backgroundColor: COLORS.LIGHT,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: "rgba(134, 93, 255, 0.2)",
-    padding: 10,
-    fontFamily: "Lexend_400Regular",
-  },
-  inputFocus: {
-    width: "70%",
-    height: 50,
-    backgroundColor: COLORS.LIGHT,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: COLORS.PRIMARY,
-    padding: 10,
-    fontFamily: "Lexend_400Regular",
-  },
-  textRegister: {
-    fontFamily: "Lexend_400Regular",
-    fontSize: 12,
-  },
-  divInputs: {
-    display: "flex",
-    gap: 20,
-    width: "100%",
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 20,
-  },
-});

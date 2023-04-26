@@ -12,27 +12,23 @@ import { getAuth } from "firebase/auth/react-native";
 import "react-native-gesture-handler";
 import DrawerNav from "./DrawerNav";
 import { COLORS } from "./constants";
-import * as SecureStore from "expo-secure-store";
 
-SecureStore.setItemAsync("Theme", {
-  PRIMARY: "#865DFF",
-  SECONDARY: "#fff",
-  THIRD: "#000",
-  LIGHT: "#fff",
-});
-let theme = SecureStore.getItemAsync("Theme");
+
+export const ThemeContext = React.createContext();
 
 export default function App2() {
   const [signedIn, setSignedIn] = useState(false);
+  const [COLORS, setCOLORS] = useState({
+    PRIMARY: "#A385FF",
+    SECONDARY: "#000",
+    THIRD: "#865DFF",
+    LIGHT: "#fff",
+  });
 
   let [fontsLoaded] = useFonts({
     Lexend_400Regular,
     Lexend_700Bold,
   });
-
-  useEffect(() => {
-    console.log(theme);
-  }, [theme]);
 
   getAuth().onAuthStateChanged((user) => {
     if (user) {
@@ -47,16 +43,20 @@ export default function App2() {
   } else {
     if (signedIn) {
       return (
-        <NavigationContainer>
-          <DrawerNav />
-        </NavigationContainer>
+        <ThemeContext.Provider value={{ COLORS, setCOLORS }}>
+          <NavigationContainer>
+            <DrawerNav />
+          </NavigationContainer>
+        </ThemeContext.Provider>
       );
     } else {
       return (
-        <View style={styles.container}>
-          <Onboarding />
-          <StatusBar style="auto" translucent />
-        </View>
+        <ThemeContext.Provider value={{ COLORS, setCOLORS }}>
+          <View style={styles.container}>
+            <Onboarding />
+            <StatusBar style="auto" translucent />
+          </View>
+        </ThemeContext.Provider>
       );
     }
   }
