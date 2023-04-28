@@ -21,6 +21,7 @@ import {
 import { auth } from "../config/FirebaseConfig";
 import { AntDesign } from "@expo/vector-icons";
 import { ThemeContext } from "../App";
+import Logo from "../assets/pcdin.svg";
 WebBrowser.maybeCompleteAuthSession();
 
 export default function OnBoardingItem({ item, signIn }) {
@@ -83,7 +84,7 @@ export default function OnBoardingItem({ item, signIn }) {
       alignItems: "center",
     },
     image: {
-      flex: 0.5,
+      flex: 0.7,
       justifyContent: "center",
     },
     title: {
@@ -130,7 +131,7 @@ export default function OnBoardingItem({ item, signIn }) {
     inputFocus: {
       width: "70%",
       height: 50,
-      backgroundColor: COLORS.LIGHT,
+      backgroundColor: "#fff",
       borderRadius: 10,
       borderWidth: 1,
       borderColor: COLORS.PRIMARY,
@@ -153,11 +154,16 @@ export default function OnBoardingItem({ item, signIn }) {
 
   return (
     <View style={[styles.container, { width }]}>
-      <Image
-        source={item.image}
-        style={[styles.image, { width, resizeMode: "contain" }]}
-      />
-      <View style={{ flex: 0.3 }}>
+      {!item.login ? (
+        <Image
+          source={item.image}
+          style={[styles.image, { width, resizeMode: "contain" }]}
+        />
+      ) : (
+        <Logo width={300} height={200} />
+      )}
+
+      <View style={{ flex: 0.5 }}>
         <Text style={styles.title}>{item.title}</Text>
         <Text style={styles.text}>{item.text}</Text>
       </View>

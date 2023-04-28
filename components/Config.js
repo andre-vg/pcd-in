@@ -46,8 +46,8 @@ export default function Config() {
     if (mode === "deuteranopia") {
       setCOLORS({
         PRIMARY: "#7c4bf4",
-        SECONDARY: "#fce894",
-        THIRD: "#145ac0",
+        SECONDARY: "#145ac0",
+        THIRD: "#fce894",
         LIGHT: "#fff",
         DARKWHITE: "#fff",
       });
@@ -112,7 +112,7 @@ export default function Config() {
       </View>
 
       <View style={styles.linha}>
-        <Text style={styles.text}>Alto Contraste</Text>
+        <Text style={styles.text}>Modo Deuteranopia</Text>
         <Checkbox
           style={styles.checkbox}
           value={isCheckedDeuteranopia}

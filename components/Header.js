@@ -2,10 +2,10 @@ import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import React, { useContext } from "react";
 import { auth } from "../config/FirebaseConfig";
 import { ThemeContext } from "../App";
+import P from "../assets/P.svg";
 
 export default function Header({ navigation }) {
   const { COLORS } = useContext(ThemeContext);
-
 
   const styles = StyleSheet.create({
     header: {
@@ -31,9 +31,8 @@ export default function Header({ navigation }) {
           style={{ width: 50, height: 50, borderRadius: 50 }}
         />
       </Pressable>
-      <Text style={styles.title}>PCD-IN</Text>
+      <P width={30} height={30} />
+      <View style={{ width: 50 }} />
     </View>
   );
 }
-
-

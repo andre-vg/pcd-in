@@ -27,7 +27,6 @@ export default function App2() {
 
   useEffect(() => {
     AsyncStorage.getItem("Theme").then((mode) => {
-      console.log("mode", mode);
       if (mode === "dark") {
         setCOLORS({
           PRIMARY: "#271D3F",
@@ -87,7 +86,7 @@ export default function App2() {
         <ThemeContext.Provider value={{ COLORS, setCOLORS }}>
           <View style={styles.container}>
             <Onboarding />
-            <StatusBar style="auto" translucent />
+            <StatusBar style="inverted" translucent />
           </View>
         </ThemeContext.Provider>
       );
