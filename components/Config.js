@@ -45,9 +45,9 @@ export default function Config() {
     }
     if (mode === "deuteranopia") {
       setCOLORS({
-        PRIMARY: "#7c4bf4",
-        SECONDARY: "#145ac0",
-        THIRD: "#fce894",
+        PRIMARY: "#058ed9",
+        SECONDARY: "#e1daae",
+        THIRD: "#cc2d35",
         LIGHT: "#fff",
         DARKWHITE: "#fff",
       });

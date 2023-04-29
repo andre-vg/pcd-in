@@ -77,7 +77,8 @@ export default function App2() {
       return (
         <ThemeContext.Provider value={{ COLORS, setCOLORS }}>
           <NavigationContainer>
-            <DrawerNav />
+              <DrawerNav />
+              <StatusBar style="light" backgroundColor={COLORS.PRIMARY} />
           </NavigationContainer>
         </ThemeContext.Provider>
       );
@@ -86,7 +87,7 @@ export default function App2() {
         <ThemeContext.Provider value={{ COLORS, setCOLORS }}>
           <View style={styles.container}>
             <Onboarding />
-            <StatusBar style="inverted" translucent />
+            <StatusBar style="dark" />
           </View>
         </ThemeContext.Provider>
       );

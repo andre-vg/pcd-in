@@ -45,7 +45,7 @@ export default function BottomTabs({ navigation }) {
               <AntDesign
                 name="home"
                 size={32}
-                color={focused ? "#fff" : COLORS.SECONDARY}
+                color={focused ? COLORS.SECONDARY : "#ffffff9f"}
               />
             </View>
           ),
@@ -60,7 +60,7 @@ export default function BottomTabs({ navigation }) {
               <AntDesign
                 name="search1"
                 size={32}
-                color={focused ? "#fff" : COLORS.SECONDARY}
+                color={focused ? COLORS.SECONDARY : "#ffffff9f"}
               />
             </View>
           ),

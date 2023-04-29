@@ -2,6 +2,7 @@ import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import React, { useContext } from "react";
 import { auth } from "../config/FirebaseConfig";
 import { ThemeContext } from "../App";
+import Constants  from "expo-constants";
 import P from "../assets/P.svg";
 
 export default function Header({ navigation }) {
@@ -15,6 +16,7 @@ export default function Header({ navigation }) {
       paddingHorizontal: 15,
       height: 70,
       backgroundColor: COLORS.PRIMARY,
+      marginTop: Constants.statusBarHeight,
     },
     title: {
       fontSize: 20,
