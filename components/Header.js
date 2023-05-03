@@ -1,9 +1,30 @@
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
 import { auth } from "../config/FirebaseConfig";
-import { AntDesign } from "@expo/vector-icons";
+import { ThemeContext } from "../App";
+import Constants  from "expo-constants";
+import P from "../assets/P.svg";
 
 export default function Header({ navigation }) {
+  const { COLORS } = useContext(ThemeContext);
+
+  const styles = StyleSheet.create({
+    header: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      paddingHorizontal: 15,
+      height: 70,
+      backgroundColor: COLORS.PRIMARY,
+      marginTop: Constants.statusBarHeight,
+    },
+    title: {
+      fontSize: 20,
+      fontFamily: "Lexend_700Bold",
+      color: COLORS.DARKWHITE,
+    },
+  });
+
   return (
     <View style={styles.header}>
       <Pressable onPress={() => navigation.openDrawer()}>
@@ -12,28 +33,8 @@ export default function Header({ navigation }) {
           style={{ width: 50, height: 50, borderRadius: 50 }}
         />
       </Pressable>
-      <Text style={styles.title}>PCD-IN</Text>
-      <Pressable onPress={() => auth.signOut()}>
-        <AntDesign name="logout" size={24} color="black" />
-      </Pressable>
+      <P width={30} height={30} />
+      <View style={{ width: 50 }} />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingHorizontal: 15,
-    height: 70,
-    backgroundColor: "#fff",
-    borderBottomWidth: 1,
-    borderBottomColor: "#e2e2e2",
-  },
-  title: {
-    fontSize: 20,
-    fontFamily: "Lexend_700Bold",
-    color: "#000",
-  },
-});

@@ -1,10 +1,17 @@
-import { Animated, FlatList, StyleSheet, Text, View } from "react-native";
-import React, { useRef, useState } from "react";
+import {
+  Animated,
+  FlatList,
+  Keyboard,
+  KeyboardAvoidingView,
+  StyleSheet,
+  View,
+} from "react-native";
+import React, { useEffect, useRef, useState } from "react";
 import slides from "../slides";
 import OnBoardingItem from "./OnBoardingItem";
 import Paginator from "./Paginator";
 
-export default function Onboarding({signIn}) {
+export default function Onboarding({ signIn }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollX = useRef(new Animated.Value(0)).current;
 
@@ -16,26 +23,52 @@ export default function Onboarding({signIn}) {
 
   const slidesRef = useRef(null);
 
+  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      () => {
+        setKeyboardVisible(true); // or some other action
+      }
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      "keyboardDidHide",
+      () => {
+        setKeyboardVisible(false); // or some other action
+      }
+    );
+
+    return () => {
+      keyboardDidHideListener.remove();
+      keyboardDidShowListener.remove();
+    };
+  }, []);
+
   return (
     <View style={styles.container}>
+        <KeyboardAvoidingView behavior="height" enabled={false}>
       <View style={{ flex: 3 }}>
-        <FlatList
-          data={slides}
-          renderItem={({ item }) => <OnBoardingItem item={item} signIn={signIn} />}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          pagingEnabled
-          onScroll={Animated.event(
-            [{ nativeEvent: { contentOffset: { x: scrollX } } }],
-            { useNativeDriver: false }
-          )}
-          scrollEventThrottle={32}
-          onViewableItemsChanged={viewableItemsChanged}
-          viewabilityConfig={viewConfig}
-          ref={slidesRef}
-        />
+          <FlatList
+            data={slides}
+            renderItem={({ item }) => (
+              <OnBoardingItem item={item} signIn={signIn} />
+            )}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            pagingEnabled
+            onScroll={Animated.event(
+              [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+              { useNativeDriver: false }
+            )}
+            scrollEventThrottle={32}
+            onViewableItemsChanged={viewableItemsChanged}
+            viewabilityConfig={viewConfig}
+            ref={slidesRef}
+          />
       </View>
-      <Paginator data={slides} scrollX={scrollX} />
+        </KeyboardAvoidingView>
+      <Paginator data={slides} scrollX={scrollX} keyboard={isKeyboardVisible} />
     </View>
   );
 }

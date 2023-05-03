@@ -1,13 +1,16 @@
 import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Home from "./pages/Home";
 import Search from "./pages/Search";
 import { AntDesign } from "@expo/vector-icons";
 import Header from "./components/Header";
+import { ThemeContext } from "./App";
 
-export default function BottomTabs({navigation}) {
+export default function BottomTabs({ navigation }) {
   const Tab = createBottomTabNavigator();
+  const { COLORS } = useContext(ThemeContext);
+
   return (
     <Tab.Navigator
       initialRouteName="Home"
@@ -18,10 +21,10 @@ export default function BottomTabs({navigation}) {
         tabBarStyle: {
           position: "absolute",
           bottom: 25,
-          left: 100,
-          right: 100,
-          elevation: 6,
-          backgroundColor: "#ffffff",
+          left: 120,
+          right: 120,
+          elevation: 3,
+          backgroundColor: COLORS.PRIMARY,
           borderRadius: 15,
           height: 60,
           borderTopWidth: 0,
@@ -41,8 +44,8 @@ export default function BottomTabs({navigation}) {
             >
               <AntDesign
                 name="home"
-                size={24}
-                color={focused ? "#865DFF" : "#748c94"}
+                size={32}
+                color={focused ? COLORS.SECONDARY : "#ffffff9f"}
               />
             </View>
           ),
@@ -53,16 +56,11 @@ export default function BottomTabs({navigation}) {
         component={Search}
         options={{
           tabBarIcon: ({ focused }) => (
-            <View
-              style={[
-                styles.icon,
-                // { backgroundColor: focused ? "#865DFF" : "transparent" },
-              ]}
-            >
+            <View style={[styles.icon]}>
               <AntDesign
                 name="search1"
-                size={24}
-                color={focused ? "#865DFF" : "#748c94"}
+                size={32}
+                color={focused ? COLORS.SECONDARY : "#ffffff9f"}
               />
             </View>
           ),

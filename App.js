@@ -1,20 +1,65 @@
 import { StyleSheet, Text, View } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Onboarding from "./components/Onboarding";
 import { StatusBar } from "expo-status-bar";
-import { useFonts, Lexend_400Regular, Lexend_700Bold } from "@expo-google-fonts/lexend";
+import {
+  useFonts,
+  Lexend_400Regular,
+  Lexend_700Bold,
+} from "@expo-google-fonts/lexend";
 import { NavigationContainer } from "@react-navigation/native";
-import BottomTabs from "./routes";
 import { getAuth } from "firebase/auth/react-native";
-import 'react-native-gesture-handler';
+import "react-native-gesture-handler";
 import DrawerNav from "./DrawerNav";
+import { COLORS } from "./constants";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+export const ThemeContext = React.createContext();
 
 export default function App2() {
   const [signedIn, setSignedIn] = useState(false);
+  const [COLORS, setCOLORS] = useState({
+    PRIMARY: "#A385FF",
+    SECONDARY: "#000",
+    THIRD: "#865DFF",
+    LIGHT: "#fff",
+  });
+
+  useEffect(() => {
+    AsyncStorage.getItem("Theme").then((mode) => {
+      if (mode === "dark") {
+        setCOLORS({
+          PRIMARY: "#271D3F",
+          SECONDARY: "#6D4693",
+          THIRD: "#333533",
+          LIGHT: "#000",
+          DARKWHITE: "#fff",
+        });
+      }
+      if (mode === "light") {
+        setCOLORS({
+          PRIMARY: "#A385FF",
+          SECONDARY: "#000",
+          THIRD: "#865DFF",
+          LIGHT: "#fff",
+          DARKWHITE: "#000",
+        });
+      }
+      if (mode === "deuteranopia") {
+        setCOLORS({
+          PRIMARY: "#7c4bf4",
+          SECONDARY: "#fce894",
+          THIRD: "#145ac0",
+          LIGHT: "#fff",
+          DARKWHITE: "#fff",
+        });
+      }
+    });
+  }, []);
 
   let [fontsLoaded] = useFonts({
     Lexend_400Regular,
-    Lexend_700Bold
+    Lexend_700Bold,
   });
 
   getAuth().onAuthStateChanged((user) => {
@@ -30,16 +75,21 @@ export default function App2() {
   } else {
     if (signedIn) {
       return (
-        <NavigationContainer>
-          <DrawerNav />
-        </NavigationContainer>
+        <ThemeContext.Provider value={{ COLORS, setCOLORS }}>
+          <NavigationContainer>
+              <DrawerNav />
+              <StatusBar style="light" backgroundColor={COLORS.PRIMARY} />
+          </NavigationContainer>
+        </ThemeContext.Provider>
       );
     } else {
       return (
-        <View style={styles.container}>
-          <Onboarding />
-          <StatusBar style="auto" translucent />
-        </View>
+        <ThemeContext.Provider value={{ COLORS, setCOLORS }}>
+          <View style={styles.container}>
+            <Onboarding />
+            <StatusBar style="dark" />
+          </View>
+        </ThemeContext.Provider>
       );
     }
   }
@@ -50,6 +100,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#fff",
+    backgroundColor: COLORS.LIGHT,
   },
 });
