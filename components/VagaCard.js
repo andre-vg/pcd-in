@@ -19,9 +19,9 @@ export default function VagaCard({nome, cargo, navigation}) {
           justifyContent: "center",
         }}
       >
-        <Text style={{ color: COLORS.DARKWHITE, fontSize: 16 }}>{cargo}</Text>
-        <Text style={{ color: COLORS.SECONDARY, fontSize: 13, marginTop: 6 }}>{nome}</Text>
-      <Text style={{ color: '#bbb', fontSize: 13 }}>Cidade, Estado, País (Modalidade)</Text>
+        <Text style={{ color: COLORS.DARKWHITE, fontSize: 16 , fontFamily: 'Lexend_400Regular' }}>{cargo}</Text>
+        <Text style={{ color: COLORS.SECONDARY, fontSize: 13 , fontFamily: 'Lexend_700Bold', marginTop: 4 }}>{nome}</Text>
+      <Text style={{ color: '#bbb', fontSize: 13, fontFamily: 'Lexend_400Regular' }}>Cidade, Estado, País (Modalidade)</Text>
       </View>
       <Pressable style={styles.button}>
         {/* <Entypo name="magnifying-glass" size={48} color={COLORS.SECONDARY} /> */}

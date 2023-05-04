@@ -15,6 +15,7 @@ export default function BottomTabs({ navigation }) {
   return (
     <Tab.Navigator
       initialRouteName="Home"
+      id="Home"
       screenOptions={{
         headerShown: true,
         header: () => <Header navigation={navigation} />,

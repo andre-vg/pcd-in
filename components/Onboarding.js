@@ -11,7 +11,7 @@ import slides from "../slides";
 import OnBoardingItem from "./OnBoardingItem";
 import Paginator from "./Paginator";
 
-export default function Onboarding({ signIn }) {
+export default function Onboarding({ setLoading }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollX = useRef(new Animated.Value(0)).current;
 
@@ -47,12 +47,12 @@ export default function Onboarding({ signIn }) {
 
   return (
     <View style={styles.container}>
-        <KeyboardAvoidingView behavior="height" enabled={false}>
-      <View style={{ flex: 3 }}>
+      <KeyboardAvoidingView behavior="height" enabled={false}>
+        <View style={{ flex: 3 }}>
           <FlatList
             data={slides}
             renderItem={({ item }) => (
-              <OnBoardingItem item={item} signIn={signIn} />
+              <OnBoardingItem item={item} setLoadingAnimation={setLoading} />
             )}
             horizontal
             showsHorizontalScrollIndicator={false}
@@ -66,8 +66,8 @@ export default function Onboarding({ signIn }) {
             viewabilityConfig={viewConfig}
             ref={slidesRef}
           />
-      </View>
-        </KeyboardAvoidingView>
+        </View>
+      </KeyboardAvoidingView>
       <Paginator data={slides} scrollX={scrollX} keyboard={isKeyboardVisible} />
     </View>
   );
