@@ -6,7 +6,7 @@ import Search from "./pages/Search";
 import { AntDesign } from "@expo/vector-icons";
 import Header from "./components/Header";
 import { ThemeContext } from "./App";
-import User from "./pages/User";
+import Profile from "./pages/Profile";
 
 export default function BottomTabs({ navigation }) {
   const Tab = createBottomTabNavigator();
@@ -34,8 +34,8 @@ export default function BottomTabs({ navigation }) {
       }}
     >
       <Tab.Screen
-        name="User"
-        component={User}
+        name="Profile"
+        component={Profile}
         options={{
           tabBarIcon: ({ focused }) => (
             <View
