@@ -24,7 +24,7 @@ import { ThemeContext } from "../App";
 import Logo from "../assets/pcdin.svg";
 WebBrowser.maybeCompleteAuthSession();
 
-export default function OnBoardingItem({ item, signIn }) {
+export default function OnBoardingItem({ item }) {
   const { COLORS, setCOLORS } = useContext(ThemeContext);
   const { width } = useWindowDimensions();
   const [focus, setFocus] = useState({

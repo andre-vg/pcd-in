@@ -106,9 +106,8 @@ export default function DrawerComponent({ navigation }) {
       </View>
       <Modalize
         ref={modalizeRef}
+        adjustToContentHeight
         handlePosition="inside"
-        snapPoint={width}
-        modalHeight={width}
         modalStyle={{
           backgroundColor: COLORS.PRIMARY,
           borderTopRightRadius: 32,

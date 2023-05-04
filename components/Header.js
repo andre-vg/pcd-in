@@ -1,5 +1,5 @@
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { auth } from "../config/FirebaseConfig";
 import { ThemeContext } from "../App";
 import Constants  from "expo-constants";

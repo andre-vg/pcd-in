@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import Onboarding from "./components/Onboarding";
 import { StatusBar } from "expo-status-bar";
@@ -17,7 +17,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 export const ThemeContext = React.createContext();
 
 export default function App2() {
-  const [signedIn, setSignedIn] = useState(false);
+  const [signedIn, setSignedIn] = useState();
+  const [loading, setLoading] = useState(false);
   const [COLORS, setCOLORS] = useState({
     PRIMARY: "#A385FF",
     SECONDARY: "#000",
@@ -34,28 +35,42 @@ export default function App2() {
           THIRD: "#333533",
           LIGHT: "#000",
           DARKWHITE: "#fff",
+          GRAY: "#202020",
         });
       }
       if (mode === "light") {
         setCOLORS({
           PRIMARY: "#A385FF",
-          SECONDARY: "#000",
+          SECONDARY: "#C5A6E3",
           THIRD: "#865DFF",
           LIGHT: "#fff",
           DARKWHITE: "#000",
+          GRAY: "#f0efef",
         });
       }
       if (mode === "deuteranopia") {
         setCOLORS({
-          PRIMARY: "#7c4bf4",
-          SECONDARY: "#fce894",
-          THIRD: "#145ac0",
+          PRIMARY: "#058ed9",
+          SECONDARY: "#cc2d35",
+          THIRD: "#e1daae",
           LIGHT: "#fff",
-          DARKWHITE: "#fff",
+          DARKWHITE: "#000",
+          GRAY: "#f0efef",
         });
       }
     });
   }, []);
+
+  const isLoading = async () => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  };
+
+  useEffect(() => {
+    isLoading();
+  }, [fontsLoaded]);
 
   let [fontsLoaded] = useFonts({
     Lexend_400Regular,
@@ -71,27 +86,36 @@ export default function App2() {
   });
 
   if (!fontsLoaded) {
-    return <Text>Loading...</Text>;
+    return null;
+  }
+
+  if (loading) {
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator size={56} color={COLORS.PRIMARY} />
+        <StatusBar style="light" backgroundColor={COLORS.PRIMARY} />
+      </View>
+    );
+  }
+
+  if (getAuth().currentUser) {
+    return (
+      <ThemeContext.Provider value={{ COLORS, setCOLORS }}>
+        <NavigationContainer>
+          <DrawerNav />
+          <StatusBar style="light" backgroundColor={COLORS.PRIMARY} />
+        </NavigationContainer>
+      </ThemeContext.Provider>
+    );
   } else {
-    if (signedIn) {
-      return (
-        <ThemeContext.Provider value={{ COLORS, setCOLORS }}>
-          <NavigationContainer>
-              <DrawerNav />
-              <StatusBar style="light" backgroundColor={COLORS.PRIMARY} />
-          </NavigationContainer>
-        </ThemeContext.Provider>
-      );
-    } else {
-      return (
-        <ThemeContext.Provider value={{ COLORS, setCOLORS }}>
-          <View style={styles.container}>
-            <Onboarding />
-            <StatusBar style="dark" />
-          </View>
-        </ThemeContext.Provider>
-      );
-    }
+    return (
+      <ThemeContext.Provider value={{ COLORS, setCOLORS }}>
+        <View style={styles.container}>
+          <Onboarding setLoading={isLoading} />
+          <StatusBar style="dark" />
+        </View>
+      </ThemeContext.Provider>
+    );
   }
 }
 

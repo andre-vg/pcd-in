@@ -6,6 +6,7 @@ import Search from "./pages/Search";
 import { AntDesign } from "@expo/vector-icons";
 import Header from "./components/Header";
 import { ThemeContext } from "./App";
+import User from "./pages/User";
 
 export default function BottomTabs({ navigation }) {
   const Tab = createBottomTabNavigator();
@@ -14,6 +15,7 @@ export default function BottomTabs({ navigation }) {
   return (
     <Tab.Navigator
       initialRouteName="Home"
+      id="Home"
       screenOptions={{
         headerShown: true,
         header: () => <Header navigation={navigation} />,
@@ -31,6 +33,26 @@ export default function BottomTabs({ navigation }) {
         },
       }}
     >
+      <Tab.Screen
+        name="User"
+        component={User}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <View
+              style={{
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <AntDesign
+                name="user"
+                size={32}
+                color={focused ? COLORS.SECONDARY : "#ffffff9f"}
+              />
+            </View>
+          ),
+        }}
+      />
       <Tab.Screen
         name="Home"
         component={Home}

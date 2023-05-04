@@ -11,12 +11,12 @@ export default function Config() {
   const { COLORS, setCOLORS } = useContext(ThemeContext);
 
   useEffect(() => {
-    AsyncStorage.getItem("Theme").then((theme) => {
-      handleChangeMode(theme);
+    AsyncStorage.getItem("Theme").then(async(theme) => {
+      await handleChangeMode(theme);
     });
   }, []);
 
-  const handleChangeMode = (mode) => {
+  const handleChangeMode = async(mode) => {
     if (mode === "dark") {
       setCOLORS({
         PRIMARY: "#271D3F",
@@ -24,6 +24,7 @@ export default function Config() {
         THIRD: "#333533",
         LIGHT: "#000",
         DARKWHITE: "#fff",
+        GRAY: "#202020",
       });
       AsyncStorage.setItem("Theme", "dark");
       setCheckedDeuteranopia(false);
@@ -37,6 +38,7 @@ export default function Config() {
         THIRD: "#865DFF",
         LIGHT: "#fff",
         DARKWHITE: "#000",
+        GRAY: "#f0efef",
       });
       AsyncStorage.setItem("Theme", "light");
       setCheckedDeuteranopia(false);
@@ -46,10 +48,11 @@ export default function Config() {
     if (mode === "deuteranopia") {
       setCOLORS({
         PRIMARY: "#058ed9",
-        SECONDARY: "#e1daae",
-        THIRD: "#cc2d35",
+        SECONDARY: "#cc2d35",
+        THIRD: "#e1daae",
         LIGHT: "#fff",
-        DARKWHITE: "#fff",
+        DARKWHITE: "#000",
+        GRAY: "#f0efef",
       });
       AsyncStorage.setItem("Theme", "deuteranopia");
       setCheckedDeuteranopia(true);
@@ -63,7 +66,7 @@ export default function Config() {
       flex: 1,
       alignItems: "flex-start",
       justifyContent: "center",
-      marginTop: 56,
+      marginVertical: 56,
       paddingHorizontal: 32,
       gap: 20,
     },
@@ -125,5 +128,3 @@ export default function Config() {
     </View>
   );
 }
-
-

@@ -15,7 +15,7 @@ export default function Paginator({ data, scrollX, keyboard }) {
     dot: {
       height: 10,
       borderRadius: 5,
-      backgroundColor: COLORS.PRIMARY,
+      backgroundColor: COLORS.SECONDARY,
       marginHorizontal: 8,
     },
   });
