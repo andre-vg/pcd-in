@@ -1,31 +1,33 @@
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
-import { Entypo } from "@expo/vector-icons";
+import { Entypo, FontAwesome5, AntDesign } from "@expo/vector-icons";
 import React, { useContext } from "react";
 import { ThemeContext } from "../App";
 
-export default function VagaCard() {
+export default function VagaCard({nome, cargo, navigation}) {
   const { COLORS } = useContext(ThemeContext);
 
   return (
-    <View style={[styles.card, {
+    <Pressable onPress={() =>{navigation.openDrawer()}} style={[styles.card, {
         backgroundColor: COLORS.GRAY,
     }]}>
-      <Image source={require("../assets/icon.png")} style={styles.image} />
+      {/* <Image source={require("../assets/icon.png")} style={styles.image} /> */}
+      <FontAwesome5 name={nome.toLowerCase()} size={56} color={COLORS.THIRD} style={styles.image} />
       <View
         style={{
           flex: 1,
           flexDirection: "column",
           justifyContent: "center",
-          paddingHorizontal: 10,
         }}
       >
-        <Text style={{ color: COLORS.DARKWHITE, fontSize: 20 }}>Vaga de emprego</Text>
-        <Text style={{ color: COLORS.DARKWHITE, fontSize: 15 }}>Empresa</Text>
+        <Text style={{ color: COLORS.DARKWHITE, fontSize: 16 }}>{cargo}</Text>
+        <Text style={{ color: COLORS.SECONDARY, fontSize: 13, marginTop: 6 }}>{nome}</Text>
+      <Text style={{ color: '#bbb', fontSize: 13 }}>Cidade, Estado, País (Modalidade)</Text>
       </View>
       <Pressable style={styles.button}>
-        <Entypo name="circle-with-plus" size={56} color={COLORS.SECONDARY} />
+        {/* <Entypo name="magnifying-glass" size={48} color={COLORS.SECONDARY} /> */}
+        <AntDesign name="form" size={36} color={COLORS.SECONDARY} />
       </Pressable>
-    </View>
+    </Pressable>
   );
 }
 
@@ -33,11 +35,11 @@ const styles = StyleSheet.create({
   card: {
     flex: 1,
     flexDirection: "row",
-    paddingHorizontal: 10,
-    justifyContent: "flex-start",
+    gap: 12,
+    justifyContent: "space-between",
+    padding: 16,
     width: "100%",
-    height: 100,
-    marginVertical: 10,
+    marginVertical: 8,
     borderRadius: 10,
   },
   image: {
