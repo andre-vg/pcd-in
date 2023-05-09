@@ -3,16 +3,14 @@ import React, { useContext } from "react";
 import { ThemeContext } from "../App";
 
 export default function Profile() {
-
   const { COLORS } = useContext(ThemeContext);
-
 
   const styles = StyleSheet.create({
     container: {
       flex: 1,
       gap: 16,
       padding: 16,
-      marginTop:12
+      marginTop: 12,
     },
     capaProfile: {
       width: "100%",
@@ -20,7 +18,7 @@ export default function Profile() {
       position: "relative",
       zIndex: 1,
     },
-  
+
     fotoProfile: {
       bottom: 50,
       height: 120,
@@ -29,12 +27,12 @@ export default function Profile() {
       marginLeft: 15,
       zIndex: 2,
     },
-  
+
     info: {
-     marginTop: -36,
-     paddingHorizontal:24
+      marginTop: -36,
+      paddingHorizontal: 24,
     },
-  
+
     card: {
       flex: 1,
       width: "100%",
@@ -42,14 +40,14 @@ export default function Profile() {
       borderStyle: "solid",
       borderColor: COLORS.PRIMARY,
       borderWidth: 2,
-      padding:8
+      padding: 8,
     },
-  
+
     tituloContainer: {
       fontSize: 20,
       padding: 5,
       fontFamily: "Lexend_700Bold",
-      color: COLORS.DARKWHITE
+      color: COLORS.DARKWHITE,
     },
     titulo: {
       fontFamily: "Lexend_700Bold",
@@ -69,7 +67,7 @@ export default function Profile() {
   });
 
   return (
-    <ScrollView style={{backgroundColor: COLORS.LIGHT}}>
+    <ScrollView style={{ backgroundColor: COLORS.LIGHT }}>
       <View>
         <Image
           style={styles.capaProfile}
@@ -85,11 +83,13 @@ export default function Profile() {
       </View>
 
       <View style={styles.info}>
-        <Text style={[styles.titulo,{ fontSize: 28}]}>
-          Martha G. Martin
+        <Text style={[styles.titulo, { fontSize: 24 }]}>Martha Gonçalves Martin</Text>
+        <Text style={[styles.titulo, { color: COLORS.SECONDARY, fontSize:16 }]}>
+          CEO do PCD-in
         </Text>
-        <Text style={[styles.texto, {color: COLORS.SECONDARY}]}>CEO do PCD-in</Text>
-        <Text style={[styles.texto, {color: COLORS.GRAY}]}>Taguatinga, Brasília, Brasil</Text>
+        <Text style={[styles.texto, { color: '#bbbbbb' }]}>
+          Taguatinga, Brasília, Brasil
+        </Text>
       </View>
 
       <View style={styles.container}>
@@ -97,13 +97,12 @@ export default function Profile() {
         <View style={styles.card}>
           <Text style={styles.tituloContainer}>Sobre</Text>
           <View style={styles.conteudoCard}>
-
-          <Text style={styles.texto}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
-            sollicitudin condimentum est, non pharetra risus tempus vitae. Morbi
-            tempus ac risus sit amet tempus. Duis eu quam a urna maximus
-            condimentum. Pellentesque.
-          </Text>
+            <Text style={styles.texto}>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
+              sollicitudin condimentum est, non pharetra risus tempus vitae.
+              Morbi tempus ac risus sit amet tempus. Duis eu quam a urna maximus
+              condimentum. Pellentesque.
+            </Text>
           </View>
         </View>
 
@@ -119,11 +118,11 @@ export default function Profile() {
               <Text style={[styles.titulo, { fontSize: 17 }]}>
                 Desenvolvedora de software
               </Text>
-              <Text style={[styles.titulo, { fontSize: 14 }]}>Pcd-in</Text>
+              <Text style={[styles.titulo, { fontSize: 14, color:COLORS.SECONDARY }]}>Pcd-in</Text>
               <Text style={styles.texto}>
                 ago de 2021 - set de 2022 (1 ano 2 meses)
               </Text>
-              <Text style={styles.texto}>
+              <Text style={[styles.texto, {color:'#bbbbbb'}]}>
                 Brasília, Distrito Federal, Brasil
               </Text>
             </View>
@@ -140,12 +139,10 @@ export default function Profile() {
             />
             <View style={{ flex: 1 }}>
               <Text style={[styles.titulo, { fontSize: 17 }]}>Instituição</Text>
-              <Text style={[styles.titulo, { fontSize: 14 }]}>
+              <Text style={[styles.titulo, { fontSize: 14, color:COLORS.SECONDARY }]}>
                 Ensino superior, Ciência da computação
               </Text>
-              <Text style={[styles.texto,{ fontSize: 12}]}>
-                2017 - 2021
-              </Text>
+              <Text style={[styles.texto, { fontSize: 12, color:'#bbbbbb' }]}>2017 - 2021</Text>
             </View>
           </View>
         </View>
@@ -154,5 +151,3 @@ export default function Profile() {
     </ScrollView>
   );
 }
-
-

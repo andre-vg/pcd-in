@@ -80,14 +80,6 @@ export default function DrawerComponent({ navigation }) {
           {auth.currentUser.email}
         </Text>
 
-        {/* <AntDesign
-          style={styles.config}
-          name="setting"
-          size={32}
-          color={COLORS.DARKWHITE}
-          onPress={() => onOpen()}
-        /> */}
-
         <MaterialIcons
           name="accessibility-new"
           size={36}
