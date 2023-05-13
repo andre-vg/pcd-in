@@ -11,10 +11,12 @@ import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import { Modalize } from "react-native-modalize";
 import Config from "./Config";
 import { ThemeContext } from "../App";
+import { UserContext } from "../DrawerNav";
 
 export default function DrawerComponent({ navigation }) {
   const { width } = useWindowDimensions();
-  const { COLORS, setCOLORS } = useContext(ThemeContext);
+  const { COLORS } = useContext(ThemeContext);
+  const { user } = useContext(UserContext);
 
   const modalizeRef = useRef(null);
 
@@ -68,7 +70,7 @@ export default function DrawerComponent({ navigation }) {
             styles.title,
           ]}
         >
-          {auth.currentUser.displayName}
+          {user.name}
         </Text>
         <Text
           style={[

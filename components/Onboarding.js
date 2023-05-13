@@ -11,7 +11,7 @@ import slides from "../slides";
 import OnBoardingItem from "./OnBoardingItem";
 import Paginator from "./Paginator";
 
-export default function Onboarding({ setLoading }) {
+export default function Onboarding() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollX = useRef(new Animated.Value(0)).current;
 
@@ -52,7 +52,7 @@ export default function Onboarding({ setLoading }) {
           <FlatList
             data={slides}
             renderItem={({ item }) => (
-              <OnBoardingItem item={item} setLoadingAnimation={setLoading} />
+              <OnBoardingItem item={item}/>
             )}
             horizontal
             showsHorizontalScrollIndicator={false}

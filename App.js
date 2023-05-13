@@ -13,6 +13,7 @@ import "react-native-gesture-handler";
 import DrawerNav from "./DrawerNav";
 import { COLORS } from "./constants";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Loading from "./components/Loading";
 
 export const ThemeContext = React.createContext();
 
@@ -90,19 +91,14 @@ export default function App2() {
   }
 
   if (loading) {
-    return (
-      <View style={styles.container}>
-        <ActivityIndicator size={56} color={COLORS.PRIMARY} />
-        <StatusBar style="light" backgroundColor={COLORS.PRIMARY} />
-      </View>
-    );
+    return <Loading setLoading={setLoading} COLORS={COLORS} />;
   }
 
   if (getAuth().currentUser) {
     return (
       <ThemeContext.Provider value={{ COLORS, setCOLORS }}>
         <NavigationContainer>
-          <DrawerNav />
+          <DrawerNav setLoading={setLoading} loading={loading} />
           <StatusBar style="light" backgroundColor={COLORS.PRIMARY} />
         </NavigationContainer>
       </ThemeContext.Provider>
@@ -111,7 +107,7 @@ export default function App2() {
     return (
       <ThemeContext.Provider value={{ COLORS, setCOLORS }}>
         <View style={styles.container}>
-          <Onboarding setLoading={isLoading} />
+          <Onboarding />
           <StatusBar style="dark" />
         </View>
       </ThemeContext.Provider>

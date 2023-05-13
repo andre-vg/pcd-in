@@ -1,9 +1,11 @@
 import { StyleSheet, Text, View, ScrollView, Image } from "react-native";
 import React, { useContext } from "react";
 import { ThemeContext } from "../App";
+import { UserContext } from "../DrawerNav";
 
 export default function Profile() {
   const { COLORS } = useContext(ThemeContext);
+  const { user } = useContext(UserContext);
 
   const styles = StyleSheet.create({
     container: {
@@ -83,7 +85,7 @@ export default function Profile() {
       </View>
 
       <View style={styles.info}>
-        <Text style={[styles.titulo, { fontSize: 24 }]}>Martha Gonçalves Martin</Text>
+        <Text style={[styles.titulo, { fontSize: 24 }]}>{user?.name}</Text>
         <Text style={[styles.titulo, { color: COLORS.SECONDARY, fontSize:16 }]}>
           CEO do PCD-in
         </Text>
