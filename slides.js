@@ -14,6 +14,7 @@ export default [
   {
     key: "3",
     title: "Venha fazer parte da nossa comunidade!",
+    text: "Por um mundo mais inclusivo e diverso!",
     login: true,
   },
 ];
