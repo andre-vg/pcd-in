@@ -1,11 +1,9 @@
 import { StyleSheet, Text, View, ScrollView, Image } from "react-native";
 import React, { useContext } from "react";
 import { ThemeContext } from "../App";
-import { UserContext } from "../DrawerNav";
 
 export default function Profile() {
-  const { COLORS } = useContext(ThemeContext);
-  const { user } = useContext(UserContext);
+  const { COLORS, user } = useContext(ThemeContext);
 
   const styles = StyleSheet.create({
     container: {

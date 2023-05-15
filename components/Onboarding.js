@@ -16,7 +16,7 @@ import LoginEmpresa from "./LoginEmpresa";
 import { ThemeContext } from "../App";
 import { Entypo } from "@expo/vector-icons";
 
-export default function Onboarding() {
+export default function Onboarding({ userHasAccount, setLoading }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollX = useRef(new Animated.Value(0)).current;
   const { COLORS } = useContext(ThemeContext);
@@ -64,7 +64,7 @@ export default function Onboarding() {
           <FlatList
             data={slides}
             renderItem={({ item }) => (
-              <OnBoardingItem item={item} onOpen={onOpen} />
+              <OnBoardingItem item={item} onOpen={onOpen} userHasAccount={userHasAccount} setLoading={setLoading} />
             )}
             horizontal
             showsHorizontalScrollIndicator={false}
@@ -111,7 +111,12 @@ export default function Onboarding() {
             >
               Login Empresa
             </Text>
-            <Entypo style={{alignSelf:"center"}} name="cross" size={32} color={COLORS.SECONDARY} />
+            <Entypo
+              style={{ alignSelf: "center" }}
+              name="cross"
+              size={32}
+              color={COLORS.SECONDARY}
+            />
           </Pressable>
         }
         modalStyle={{

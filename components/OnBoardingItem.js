@@ -24,12 +24,11 @@ import Logo from "../assets/pcdin.svg";
 import { Modalize } from "react-native-modalize";
 WebBrowser.maybeCompleteAuthSession();
 
-export default function OnBoardingItem({ item, onOpen }) {
+export default function OnBoardingItem({ item, onOpen, userHasAccount }) {
   const { COLORS } = useContext(ThemeContext);
   const { width } = useWindowDimensions();
   const [token, setToken] = useState();
   const [userInfo, setUserInfo] = useState(null);
-  const [loading, setLoading] = useState(false);
 
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
@@ -57,7 +56,6 @@ export default function OnBoardingItem({ item, onOpen }) {
 
   useEffect(() => {
     if (response?.type === "success") {
-      setLoading(true);
       setToken(response.authentication.accessToken);
     }
   }, [response, token]);
@@ -65,10 +63,11 @@ export default function OnBoardingItem({ item, onOpen }) {
   useEffect(() => {
     if (token) {
       const credential = GoogleAuthProvider.credential(null, token);
-      signInWithCredential(auth, credential);
+      signInWithCredential(auth, credential).then((userCredential) => {
+        userHasAccount();
+      });
       setTimeout(() => {
         setUserInfo(auth.currentUser);
-        setLoading(false);
       }, 1000);
     }
   }, [token]);

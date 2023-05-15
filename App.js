@@ -14,8 +14,11 @@ import DrawerNav from "./DrawerNav";
 import { COLORS } from "./constants";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Loading from "./components/Loading";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "./config/FirebaseConfig";
 
 export const ThemeContext = React.createContext();
+export const UserContext = React.createContext();
 
 export default function App2() {
   const [signedIn, setSignedIn] = useState();
@@ -26,6 +29,7 @@ export default function App2() {
     THIRD: "#865DFF",
     LIGHT: "#fff",
   });
+  const [user, setUser] = useState();
 
   useEffect(() => {
     AsyncStorage.getItem("Theme").then((mode) => {
@@ -60,6 +64,11 @@ export default function App2() {
         });
       }
     });
+    AsyncStorage.getItem("user").then((user) => {
+      if (user) {
+        setUser(JSON.parse(user));
+      }
+    });
   }, []);
 
   const isLoading = async () => {
@@ -86,6 +95,17 @@ export default function App2() {
     }
   });
 
+  const userHasAccount = async () => {
+    await getDoc(doc(db, "users", getAuth().currentUser.uid)).then((doc) => {
+      if (doc.data()) {
+        setUser(doc.data());
+        AsyncStorage.setItem("user", JSON.stringify(doc.data()));
+      } else {
+        setUser([]);
+      }
+    });
+  };
+
   if (!fontsLoaded) {
     return null;
   }
@@ -94,20 +114,24 @@ export default function App2() {
     return <Loading setLoading={setLoading} COLORS={COLORS} />;
   }
 
-  if (getAuth().currentUser) {
+  if (user && signedIn) {
     return (
-      <ThemeContext.Provider value={{ COLORS, setCOLORS }}>
+      <ThemeContext.Provider value={{ COLORS, setCOLORS, user, setUser }}>
         <NavigationContainer>
-          <DrawerNav setLoading={setLoading} loading={loading} />
+          <DrawerNav
+            setLoading={setLoading}
+            loading={loading}
+            COLORS={COLORS}
+          />
           <StatusBar style="light" backgroundColor={COLORS.PRIMARY} />
         </NavigationContainer>
       </ThemeContext.Provider>
     );
   } else {
     return (
-      <ThemeContext.Provider value={{ COLORS, setCOLORS }}>
+      <ThemeContext.Provider value={{ COLORS, setCOLORS, user, setUser }}>
         <View style={styles.container}>
-          <Onboarding />
+          <Onboarding userHasAccount={userHasAccount} setLoading={setLoading} />
           <StatusBar style="dark" />
         </View>
       </ThemeContext.Provider>

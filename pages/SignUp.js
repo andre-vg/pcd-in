@@ -10,15 +10,13 @@ import {
 } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { useContext, useEffect } from "react";
-import { ThemeContext } from "../App";
+import { ThemeContext, UserContext } from "../App";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../config/FirebaseConfig";
 import { getAuth } from "firebase/auth/react-native";
-import { UserContext } from "../DrawerNav";
 
 export default function SignUp({ navigation, setLoading }) {
-  const { COLORS } = useContext(ThemeContext);
-  const { user, setUser } = useContext(UserContext);
+  const { COLORS, user, setUser } = useContext(ThemeContext);
 
   //if user click return button, it will go back to login page
   useEffect(() => {

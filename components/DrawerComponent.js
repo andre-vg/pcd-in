@@ -6,17 +6,15 @@ import {
   useWindowDimensions,
 } from "react-native";
 import React, { useContext, useRef } from "react";
-import { auth } from "../config/FirebaseConfig";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import { Modalize } from "react-native-modalize";
 import Config from "./Config";
 import { ThemeContext } from "../App";
-import { UserContext } from "../DrawerNav";
+import { auth } from "../config/FirebaseConfig";
 
 export default function DrawerComponent({ navigation }) {
   const { width } = useWindowDimensions();
-  const { COLORS } = useContext(ThemeContext);
-  const { user } = useContext(UserContext);
+  const { COLORS, user, setUser } = useContext(ThemeContext);
 
   const modalizeRef = useRef(null);
 
@@ -55,7 +53,7 @@ export default function DrawerComponent({ navigation }) {
     <>
       <View style={styles.container}>
         <Image
-          source={{ uri: auth.currentUser.photoURL }}
+          source={{ uri: user?.photoURL }}
           style={{
             width: 64,
             height: 64,
@@ -70,7 +68,7 @@ export default function DrawerComponent({ navigation }) {
             styles.title,
           ]}
         >
-          {user.name}
+          {user?.name}
         </Text>
         <Text
           style={[
@@ -79,7 +77,7 @@ export default function DrawerComponent({ navigation }) {
           ]}
           onPress={() => navigation.goBack()}
         >
-          {auth.currentUser.email}
+          {user?.email}
         </Text>
 
         <MaterialIcons
@@ -95,7 +93,10 @@ export default function DrawerComponent({ navigation }) {
           style={styles.logOut}
           size={28}
           color={COLORS.DARKWHITE}
-          onPress={() => auth.signOut()}
+          onPress={() => {
+            auth.signOut();
+            setUser();
+          }}
         />
       </View>
       <Modalize
