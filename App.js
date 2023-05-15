@@ -25,9 +25,11 @@ export default function App2() {
   const [loading, setLoading] = useState(false);
   const [COLORS, setCOLORS] = useState({
     PRIMARY: "#A385FF",
-    SECONDARY: "#000",
-    THIRD: "#865DFF",
-    LIGHT: "#fff",
+    SECONDARY: "#865DFF",
+    THIRD: "#C5A6E3",
+    LIGHT: "#ffffff",
+    DARKWHITE: "#000000",
+    GRAY: "#f0efef",
   });
   const [user, setUser] = useState();
 
@@ -37,19 +39,19 @@ export default function App2() {
         setCOLORS({
           PRIMARY: "#271D3F",
           SECONDARY: "#6D4693",
-          THIRD: "#333533",
-          LIGHT: "#000",
-          DARKWHITE: "#fff",
+          THIRD: "#A385FF",
+          LIGHT: "#000000",
+          DARKWHITE: "#ffffff",
           GRAY: "#202020",
         });
       }
       if (mode === "light") {
         setCOLORS({
           PRIMARY: "#A385FF",
-          SECONDARY: "#C5A6E3",
-          THIRD: "#865DFF",
-          LIGHT: "#fff",
-          DARKWHITE: "#000",
+          SECONDARY: "#865DFF",
+          THIRD: "#C5A6E3",
+          LIGHT: "#ffffff",
+          DARKWHITE: "#000000",
           GRAY: "#f0efef",
         });
       }
@@ -58,8 +60,8 @@ export default function App2() {
           PRIMARY: "#058ed9",
           SECONDARY: "#cc2d35",
           THIRD: "#e1daae",
-          LIGHT: "#fff",
-          DARKWHITE: "#000",
+          LIGHT: "#ffffff",
+          DARKWHITE: "#000000",
           GRAY: "#f0efef",
         });
       }

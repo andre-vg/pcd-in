@@ -3,14 +3,28 @@ import { Entypo, FontAwesome5, AntDesign } from "@expo/vector-icons";
 import React, { useContext } from "react";
 import { ThemeContext } from "../App";
 
-export default function VagaCard({nome, cargo, navigation, logo_empresa}) {
+export default function VagaCard({
+  nome,
+  cargo,
+  navigation,
+  logo_empresa,
+  onOpen,
+}) {
   const { COLORS } = useContext(ThemeContext);
 
   return (
-    <Pressable onPress={() =>{navigation.openDrawer()}} style={[styles.card, {
-        backgroundColor: COLORS.GRAY,
-    }]}>
-      <Image source={{uri:logo_empresa}} style={styles.image} />
+    <Pressable
+      onPress={() => {
+        onOpen();
+      }}
+      style={[
+        styles.card,
+        {
+          backgroundColor: COLORS.GRAY,
+        },
+      ]}
+    >
+      <Image source={{ uri: logo_empresa }} style={styles.image} />
       {/* <FontAwesome5 name={nome.toLowerCase()} size={56} color={COLORS.THIRD} style={styles.image} /> */}
       <View
         style={{
@@ -19,9 +33,34 @@ export default function VagaCard({nome, cargo, navigation, logo_empresa}) {
           justifyContent: "center",
         }}
       >
-        <Text style={{ color: COLORS.DARKWHITE, fontSize: 16 , fontFamily: 'Lexend_400Regular' }}>{cargo}</Text>
-        <Text style={{ color: COLORS.SECONDARY, fontSize: 13 , fontFamily: 'Lexend_700Bold', marginTop: 4 }}>{nome}</Text>
-      <Text style={{ color: '#bbb', fontSize: 13, fontFamily: 'Lexend_400Regular' }}>Cidade, Estado, País (Modalidade)</Text>
+        <Text
+          style={{
+            color: COLORS.DARKWHITE,
+            fontSize: 16,
+            fontFamily: "Lexend_400Regular",
+          }}
+        >
+          {cargo}
+        </Text>
+        <Text
+          style={{
+            color: COLORS.SECONDARY,
+            fontSize: 13,
+            fontFamily: "Lexend_700Bold",
+            marginTop: 4,
+          }}
+        >
+          {nome}
+        </Text>
+        <Text
+          style={{
+            color: "#bbb",
+            fontSize: 13,
+            fontFamily: "Lexend_400Regular",
+          }}
+        >
+          Cidade, Estado, País (Modalidade)
+        </Text>
       </View>
       <Pressable style={styles.button}>
         {/* <Entypo name="magnifying-glass" size={48} color={COLORS.SECONDARY} /> */}

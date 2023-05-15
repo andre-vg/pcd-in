@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, useWindowDimensions } from "react-native";
 import React, { useContext, useEffect } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Home from "./pages/Home";
@@ -11,6 +11,9 @@ import Profile from "./pages/Profile";
 export default function BottomTabs({ navigation }) {
   const Tab = createBottomTabNavigator();
   const { COLORS } = useContext(ThemeContext);
+  const { width } = useWindowDimensions();
+
+  const [isOpen, setIsOpen] = React.useState(false);
 
   return (
     <Tab.Navigator
@@ -22,14 +25,16 @@ export default function BottomTabs({ navigation }) {
         tabBarShowLabel: false,
         tabBarStyle: {
           position: "absolute",
+          display: isOpen ? "none" : "flex",
+          flexDirection: "row",
           bottom: 25,
-          left: 120,
-          right: 120,
+          marginHorizontal: width / 4,
           elevation: 3,
-          backgroundColor: COLORS.PRIMARY,
-          borderRadius: 15,
-          height: 60,
+          backgroundColor: COLORS.GRAY,
+          borderRadius: 500,
+          height: 70,
           borderTopWidth: 0,
+          zIndex: 100,
         },
       }}
     >
@@ -38,16 +43,21 @@ export default function BottomTabs({ navigation }) {
         component={Profile}
         options={{
           tabBarIcon: ({ focused }) => (
-            <View
-              style={{
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
+            <View style={styles.icon}>
+              <View
+                style={{
+                  display: focused ? "flex" : "none",
+                  backgroundColor: COLORS.SECONDARY,
+                  position: "absolute",
+                  width: 60,
+                  height: 60,
+                  borderRadius: 60,
+                }}
+              />
               <AntDesign
                 name="user"
                 size={32}
-                color={focused ? COLORS.SECONDARY : "#ffffff9f"}
+                color={focused ? COLORS.THIRD : `${COLORS.DARKWHITE + '50'}`}
               />
             </View>
           ),
@@ -55,19 +65,24 @@ export default function BottomTabs({ navigation }) {
       />
       <Tab.Screen
         name="Home"
-        component={Home}
+        children={() => <Home setIsOpen={setIsOpen} />}
         options={{
           tabBarIcon: ({ focused }) => (
-            <View
-              style={{
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
+            <View style={styles.icon}>
+              <View
+                style={{
+                  display: focused ? "flex" : "none",
+                  backgroundColor: COLORS.SECONDARY,
+                  position: "absolute",
+                  width: 60,
+                  height: 60,
+                  borderRadius: 60,
+                }}
+              />
               <AntDesign
                 name="home"
                 size={32}
-                color={focused ? COLORS.SECONDARY : "#ffffff9f"}
+                color={focused ? COLORS.THIRD : `${COLORS.DARKWHITE + '50'}`}
               />
             </View>
           ),
@@ -79,10 +94,20 @@ export default function BottomTabs({ navigation }) {
         options={{
           tabBarIcon: ({ focused }) => (
             <View style={[styles.icon]}>
+              <View
+                style={{
+                  display: focused ? "flex" : "none",
+                  backgroundColor: COLORS.SECONDARY,
+                  position: "absolute",
+                  width: 60,
+                  height: 60,
+                  borderRadius: 60,
+                }}
+              />
               <AntDesign
                 name="search1"
                 size={32}
-                color={focused ? COLORS.SECONDARY : "#ffffff9f"}
+                color={focused ? COLORS.THIRD : `${COLORS.DARKWHITE + '50'}`}
               />
             </View>
           ),
@@ -96,8 +121,5 @@ const styles = StyleSheet.create({
   icon: {
     alignItems: "center",
     justifyContent: "center",
-    width: 50,
-    height: 50,
-    borderRadius: 999,
   },
 });
