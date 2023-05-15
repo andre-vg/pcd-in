@@ -3,15 +3,15 @@ import { Entypo, FontAwesome5, AntDesign } from "@expo/vector-icons";
 import React, { useContext } from "react";
 import { ThemeContext } from "../App";
 
-export default function VagaCard({nome, cargo, navigation}) {
+export default function VagaCard({nome, cargo, navigation, logo_empresa}) {
   const { COLORS } = useContext(ThemeContext);
 
   return (
     <Pressable onPress={() =>{navigation.openDrawer()}} style={[styles.card, {
         backgroundColor: COLORS.GRAY,
     }]}>
-      {/* <Image source={require("../assets/icon.png")} style={styles.image} /> */}
-      <FontAwesome5 name={nome.toLowerCase()} size={56} color={COLORS.THIRD} style={styles.image} />
+      <Image source={{uri:logo_empresa}} style={styles.image} />
+      {/* <FontAwesome5 name={nome.toLowerCase()} size={56} color={COLORS.THIRD} style={styles.image} /> */}
       <View
         style={{
           flex: 1,

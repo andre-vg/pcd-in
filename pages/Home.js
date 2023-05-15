@@ -1,48 +1,16 @@
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { ThemeContext } from "../App";
 import VagaCard from "../components/VagaCard";
+import axios from "axios";
 
 export default function Home({ navigation }) {
   const { COLORS } = useContext(ThemeContext);
-  let a = [
-    "Google",
-    "Facebook",
-    "Apple",
-    "Microsoft",
-    "Amazon",
-    "Spotify",
-    "Twitter",
-    "TikTok",
-    "Instagram",
-    "YouTube",
-    "LinkedIn",
-    "Pinterest",
-    "Reddit",
-    "Snapchat",
-    "Tumblr",
-    "WhatsApp",
-    "Discord",
-    "Telegram",
-    "Twitch",
-  ];
+  const [vagas, setVagas] = React.useState([]);
+  let a = ["Google", "Facebook", "Apple", "Microsoft"];
+  let cargos = ["Desenvolvedor", "Analista de Sistemas", "Analista de Dados"];
 
-  let cargos = [
-    "Desenvolvedor",
-    "Analista de Sistemas",
-    "Analista de Dados",
-    "Analista de Segurança",
-    "Analista de Redes",
-    "Analista de Software Engineering Specialist (Java - Authorization)",
-    "Analista de Suporte",
-    "Analista de Testes",
-    "Analista de Qualidade",
-    "Analista de Negócios",
-    "Analista de Processos",
-    "Analista de Requisitos",
-    "Analista de Projetos",
-    "Analista de Banco de Dados",
-  ];
+  const baseURL = "https://xz4kdcpix4.execute-api.sa-east-1.amazonaws.com/usuario/";
 
   const styles = StyleSheet.create({
     container: {
@@ -53,10 +21,26 @@ export default function Home({ navigation }) {
     },
   });
 
+const getvagas = async () => {
+  await axios.get(baseURL + "vagas").then((response) => {
+    setVagas(response.data.Items);
+  });
+};
+
+useEffect(() => {
+  getvagas();
+}, []);
+
   return (
     <ScrollView style={styles.container}>
-      {a.map((item) => (
-        <VagaCard key={item} nome={item} cargo={cargos[Math.floor(Math.random()*cargos.length)]} navigation={navigation} />
+      {vagas.map((item) => (
+        <VagaCard
+          key={item.id}
+          nome={item.empresa}
+          cargo={item.titulo}
+          logo_empresa={item.logo_empresa}
+          navigation={navigation}
+        />
       ))}
       <View style={{ height: 100 }}></View>
     </ScrollView>
