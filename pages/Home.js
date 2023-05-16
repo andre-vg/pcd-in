@@ -1,5 +1,11 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
-import React, { useContext, useEffect } from "react";
+import {
+  RefreshControl,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { ThemeContext } from "../App";
 import VagaCard from "../components/VagaCard";
 import axios from "axios";
@@ -8,9 +14,10 @@ import VagaDetails from "./VagaDetails";
 
 export default function Home({ navigation, setIsOpen }) {
   const { COLORS } = useContext(ThemeContext);
-  const [vagas, setVagas] = React.useState([]);
+  const [vagas, setVagas] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
 
-  const refModalVagas = React.useRef(null);
+  const refModalVagas = useRef(null);
 
   let a = ["Google", "Facebook", "Apple", "Microsoft"];
   let cargos = ["Desenvolvedor", "Analista de Sistemas", "Analista de Dados"];
@@ -27,7 +34,7 @@ export default function Home({ navigation, setIsOpen }) {
     },
   });
 
-  const getvagas = async () => {
+  const getVagas = async () => {
     await axios.get(baseURL + "vagas").then((response) => {
       setVagas(response.data.Items);
     });
@@ -39,18 +46,26 @@ export default function Home({ navigation, setIsOpen }) {
   };
 
   useEffect(() => {
-    getvagas();
+    getVagas();
   }, []);
 
   return (
     <>
-      <ScrollView style={styles.container}>
+      <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={() => {
+              getVagas();
+            }}
+          />
+        }
+        style={styles.container}
+      >
         {vagas.map((item) => (
           <VagaCard
             key={item.id}
-            nome={item.empresa}
-            cargo={item.titulo}
-            logo_empresa={item.logo_empresa}
+            info={item}
             navigation={navigation}
             onOpen={onOpen}
           />

@@ -1,15 +1,9 @@
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { Entypo, FontAwesome5, AntDesign } from "@expo/vector-icons";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { ThemeContext } from "../App";
 
-export default function VagaCard({
-  nome,
-  cargo,
-  navigation,
-  logo_empresa,
-  onOpen,
-}) {
+export default function VagaCard({ info, onOpen }) {
   const { COLORS } = useContext(ThemeContext);
 
   return (
@@ -24,7 +18,7 @@ export default function VagaCard({
         },
       ]}
     >
-      <Image source={{ uri: logo_empresa }} style={styles.image} />
+      <Image source={{ uri: info.logo_empresa }} style={styles.image} />
       {/* <FontAwesome5 name={nome.toLowerCase()} size={56} color={COLORS.THIRD} style={styles.image} /> */}
       <View
         style={{
@@ -40,7 +34,7 @@ export default function VagaCard({
             fontFamily: "Lexend_400Regular",
           }}
         >
-          {cargo}
+          {info.titulo}
         </Text>
         <Text
           style={{
@@ -50,7 +44,7 @@ export default function VagaCard({
             marginTop: 4,
           }}
         >
-          {nome}
+          {info.empresa}
         </Text>
         <Text
           style={{
@@ -59,7 +53,7 @@ export default function VagaCard({
             fontFamily: "Lexend_400Regular",
           }}
         >
-          Cidade, Estado, País (Modalidade)
+          {info.cidade}
         </Text>
       </View>
       <Pressable style={styles.button}>
