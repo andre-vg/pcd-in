@@ -11,6 +11,7 @@ import { Modalize } from "react-native-modalize";
 import Config from "./Config";
 import { ThemeContext } from "../App";
 import { auth } from "../config/FirebaseConfig";
+import { Avatar } from "react-native-paper";
 
 export default function DrawerComponent({ navigation }) {
   const { width } = useWindowDimensions();
@@ -52,16 +53,24 @@ export default function DrawerComponent({ navigation }) {
   return (
     <>
       <View style={styles.container}>
-        <Image
-          source={{ uri: user?.photoURL }}
-          style={{
-            width: 64,
-            height: 64,
-            borderRadius: 50,
-            borderWidth: 2,
-            borderColor: COLORS.DARKWHITE,
-          }}
-        />
+        {user.photoURL ? (
+          <Image
+            source={{ uri: user?.photoURL }}
+            style={{
+              width: 64,
+              height: 64,
+              borderRadius: 64,
+              borderWidth: 2,
+              borderColor: COLORS.DARKWHITE,
+            }}
+          />
+        ) : (
+          <Avatar.Text
+            size={64}
+            label={user?.name[0]}
+            style={{ backgroundColor: COLORS.SECONDARY }}
+          />
+        )}
         <Text
           style={[
             { color: COLORS.DARKWHITE, fontSize: 24, marginTop: 8 },

@@ -1,8 +1,9 @@
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import React, { useContext, useEffect } from "react";
 import { ThemeContext } from "../App";
-import Constants  from "expo-constants";
+import Constants from "expo-constants";
 import P from "../assets/P.svg";
+import { Avatar } from "react-native-paper";
 
 export default function Header({ navigation }) {
   const { COLORS, user } = useContext(ThemeContext);
@@ -27,10 +28,18 @@ export default function Header({ navigation }) {
   return (
     <View style={styles.header}>
       <Pressable onPress={() => navigation.openDrawer()}>
-        <Image
-          source={{ uri: user?.photoURL }}
-          style={{ width: 50, height: 50, borderRadius: 50 }}
-        />
+        {user.photoURL ? (
+          <Image
+            source={{ uri: user?.photoURL }}
+            style={{ width: 50, height: 50, borderRadius: 50 }}
+          />
+        ) : (
+          <Avatar.Text
+            size={50}
+            label={user?.name[0]}
+            style={{ backgroundColor: COLORS.SECONDARY }}
+          />
+        )}
       </Pressable>
       <P width={30} height={30} />
       <View style={{ width: 50 }} />

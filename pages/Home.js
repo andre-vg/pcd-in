@@ -35,8 +35,10 @@ export default function Home({ navigation, setIsOpen }) {
   });
 
   const getVagas = async () => {
+    setRefreshing(true);
     await axios.get(baseURL + "vagas").then((response) => {
       setVagas(response.data.Items);
+      setRefreshing(false);
     });
   };
 
@@ -55,9 +57,9 @@ export default function Home({ navigation, setIsOpen }) {
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
-            onRefresh={() => {
-              getVagas();
-            }}
+            onRefresh={getVagas}
+            colors={[COLORS.PRIMARY, COLORS.SECONDARY, COLORS.THIRD]}
+            progressBackgroundColor={COLORS.LIGHT}
           />
         }
         style={styles.container}

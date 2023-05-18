@@ -32,7 +32,7 @@ export default function BottomTabs({ navigation }) {
           elevation: 3,
           backgroundColor: COLORS.GRAY,
           borderRadius: 500,
-          height: 70,
+          height: 60,
           borderTopWidth: 0,
           zIndex: 100,
         },
@@ -45,19 +45,18 @@ export default function BottomTabs({ navigation }) {
           tabBarIcon: ({ focused }) => (
             <View style={styles.icon}>
               <View
-                style={{
-                  display: focused ? "flex" : "none",
-                  backgroundColor: COLORS.SECONDARY,
-                  position: "absolute",
-                  width: 60,
-                  height: 60,
-                  borderRadius: 60,
-                }}
+                style={[
+                  styles.focus,
+                  {
+                    backgroundColor: COLORS.SECONDARY,
+                    display: focused ? "flex" : "none",
+                  },
+                ]}
               />
               <AntDesign
                 name="user"
                 size={32}
-                color={focused ? COLORS.THIRD : `${COLORS.DARKWHITE + '50'}`}
+                color={focused ? COLORS.THIRD : `${COLORS.DARKWHITE + "50"}`}
               />
             </View>
           ),
@@ -70,19 +69,19 @@ export default function BottomTabs({ navigation }) {
           tabBarIcon: ({ focused }) => (
             <View style={styles.icon}>
               <View
-                style={{
-                  display: focused ? "flex" : "none",
-                  backgroundColor: COLORS.SECONDARY,
-                  position: "absolute",
-                  width: 60,
-                  height: 60,
-                  borderRadius: 60,
-                }}
+                style={[
+                  styles.focus,
+                  {
+                    backgroundColor: COLORS.SECONDARY,
+
+                    display: focused ? "flex" : "none",
+                  },
+                ]}
               />
               <AntDesign
                 name="home"
                 size={32}
-                color={focused ? COLORS.THIRD : `${COLORS.DARKWHITE + '50'}`}
+                color={focused ? COLORS.THIRD : `${COLORS.DARKWHITE + "50"}`}
               />
             </View>
           ),
@@ -95,19 +94,18 @@ export default function BottomTabs({ navigation }) {
           tabBarIcon: ({ focused }) => (
             <View style={[styles.icon]}>
               <View
-                style={{
-                  display: focused ? "flex" : "none",
-                  backgroundColor: COLORS.SECONDARY,
-                  position: "absolute",
-                  width: 60,
-                  height: 60,
-                  borderRadius: 60,
-                }}
+                style={[
+                  styles.focus,
+                  {
+                    backgroundColor: COLORS.SECONDARY,
+                    display: focused ? "flex" : "none",
+                  },
+                ]}
               />
               <AntDesign
                 name="search1"
                 size={32}
-                color={focused ? COLORS.THIRD : `${COLORS.DARKWHITE + '50'}`}
+                color={focused ? COLORS.THIRD : `${COLORS.DARKWHITE + "50"}`}
               />
             </View>
           ),
@@ -121,5 +119,11 @@ const styles = StyleSheet.create({
   icon: {
     alignItems: "center",
     justifyContent: "center",
+  },
+  focus: {
+    position: "absolute",
+    width: 60,
+    height: 53,
+    borderRadius: 60,
   },
 });
