@@ -58,8 +58,8 @@ export default function Home({ navigation, setIsOpen }) {
           <RefreshControl
             refreshing={refreshing}
             onRefresh={getVagas}
-            colors={[COLORS.PRIMARY, COLORS.SECONDARY, COLORS.THIRD]}
-            progressBackgroundColor={COLORS.LIGHT}
+            colors={[COLORS.SECONDARY, COLORS.THIRD]}
+            progressBackgroundColor={COLORS.GRAY}
           />
         }
         style={styles.container}

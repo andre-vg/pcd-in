@@ -7,13 +7,17 @@ import {
   StyleSheet,
   Pressable,
   BackHandler,
+  TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { useContext, useEffect } from "react";
 import { ThemeContext, UserContext } from "../App";
 import { doc, setDoc } from "firebase/firestore";
-import { db } from "../config/FirebaseConfig";
+import { auth, db } from "../config/FirebaseConfig";
 import { getAuth } from "firebase/auth/react-native";
+import Input from "../components/Input";
+import Constants from "expo-constants";
 
 export default function SignUp({ navigation, setLoading }) {
   const { COLORS, user, setUser } = useContext(ThemeContext);
@@ -39,86 +43,224 @@ export default function SignUp({ navigation, setLoading }) {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      name: "",
-      def: "",
+      firstName: auth.currentUser.displayName.split(" ")[0],
+      lastName: auth.currentUser.displayName.split(" ")[1],
+      deficiency: "",
+      sobre: "",
+      titulo: "",
+      email: auth.currentUser.email,
     },
   });
   const onSubmit = async (data) => {
     await setDoc(doc(db, "users", getAuth().currentUser.uid), {
-      name: data.name,
-      def: data.def,
+      ...data,
     });
     setUser(data);
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView
+      style={[
+        styles.container,
+        {
+          paddingTop: Constants.statusBarHeight + 24,
+          backgroundColor: COLORS.GRAY,
+        },
+      ]}
+    >
+      <Text
+        style={[
+          styles.title,
+          { color: COLORS.DARKWHITE, paddingHorizontal: 20 },
+        ]}
+      >
+        Cadastro
+      </Text>
+      <Text
+        style={[
+          styles.text,
+          { color: COLORS.SECONDARY, paddingHorizontal: 32, marginTop: 12 },
+        ]}
+      >
+        Preencha os campos abaixo para que possamos te conhecer melhor!
+      </Text>
+      <Text
+        style={[
+          styles.title,
+          {
+            fontSize: 22,
+            paddingHorizontal: 32,
+            marginTop: 12,
+            color: COLORS.DARKWHITE,
+          },
+        ]}
+      >
+        Dados Pessoais
+      </Text>
       <View style={styles.divInputs}>
         <Controller
+          name="firstName"
           control={control}
           rules={{
             required: true,
           }}
           render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              style={
-                errors.firstName
-                  ? [styles.input, { borderColor: "red" }]
-                  : [styles.input, { borderColor: COLORS.PRIMARY }]
-              }
-              placeholder="Nome Completo *"
-              onBlur={onBlur}
-              onChangeText={onChange}
+            <Input
+              label="Nome"
+              underlineColor={"transparent"}
+              activeUnderlineColor={COLORS.SECONDARY}
               value={value}
+              onChangeText={onChange}
+              onBlur={onBlur}
+              error={errors.firstName}
             />
           )}
-          name="name"
+        />
+        <Controller
+          name="lastName"
+          control={control}
+          rules={{
+            required: true,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <Input
+              label="Sobrenome"
+              underlineColor={"transparent"}
+              activeUnderlineColor={COLORS.SECONDARY}
+              value={value}
+              onChangeText={onChange}
+              onBlur={onBlur}
+              error={errors.lastName}
+            />
+          )}
         />
 
         <Controller
+          name="email"
+          control={control}
+          rules={{
+            required: true,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <Input
+              label="Email"
+              underlineColor={"transparent"}
+              activeUnderlineColor={COLORS.SECONDARY}
+              value={value}
+              onChangeText={onChange}
+              onBlur={onBlur}
+              error={errors.email}
+            />
+          )}
+        />
+
+        <Controller
+          name="deficiency"
           control={control}
           rules={{
             maxLength: 100,
           }}
           render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              style={[styles.input, { borderColor: COLORS.PRIMARY }]}
-              placeholder="Deficiência"
-              onBlur={onBlur}
-              onChangeText={onChange}
+            <Input
+              label="Deficiência (opcional)"
+              underlineColor={"transparent"}
+              activeUnderlineColor={COLORS.SECONDARY}
               value={value}
+              onChangeText={onChange}
+              onBlur={onBlur}
+              error={errors.deficiency}
             />
           )}
-          name="def"
         />
 
-        <Pressable
-          style={[styles.botao, { backgroundColor: COLORS.PRIMARY }]}
-          onPress={handleSubmit(onSubmit)}
-        >
-          <Text
-            style={{
-              fontFamily: "Lexend_400Regular",
-              color: COLORS.DARKWHITE,
-              fontSize: 18,
-            }}
-          >
-            Cadastrar
-          </Text>
-        </Pressable>
+        <Controller
+          name="titulo"
+          control={control}
+          rules={{
+            maxLength: 100,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <Input
+              label="Título"
+              underlineColor={"transparent"}
+              activeUnderlineColor={COLORS.SECONDARY}
+              value={value}
+              onChangeText={onChange}
+              onBlur={onBlur}
+              error={errors.titulo}
+            />
+          )}
+        />
       </View>
-    </View>
+      <Text
+        style={[
+          styles.title,
+          {
+            fontSize: 22,
+            paddingHorizontal: 32,
+            marginTop: 10,
+            color: COLORS.DARKWHITE,
+          },
+        ]}
+      >
+        Sobre (opcional)
+      </Text>
+      <View style={styles.divInputs}>
+        <Controller
+          name="sobre"
+          control={control}
+          rules={{
+            maxLength: 100,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <Input
+              label="Conte um pouco sobre você!"
+              underlineColor={"transparent"}
+              activeUnderlineColor={COLORS.SECONDARY}
+              multiline={true}
+              numberOfLines={4}
+              value={value}
+              onChangeText={onChange}
+              onBlur={onBlur}
+              error={errors.sobre}
+              maxLength={100}
+            />
+          )}
+        />
+      </View>
+      <TouchableOpacity
+        activeOpacity={0.7}
+        style={[styles.botao, { backgroundColor: COLORS.SECONDARY }]}
+        onPress={handleSubmit(onSubmit)}
+      >
+        <Text
+          style={{
+            fontFamily: "Lexend_400Regular",
+            color: COLORS.DARKWHITE,
+            fontSize: 18,
+          }}
+        >
+          Cadastrar
+        </Text>
+      </TouchableOpacity>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+  },
+  title: {
+    fontFamily: "Lexend_700Bold",
+    fontSize: 32,
+  },
+  text: {
+    fontFamily: "Lexend_400Regular",
+    fontSize: 18,
   },
   input: {
-    width: "70%",
+    width: "80%",
     height: 50,
     backgroundColor: "#fff",
     borderRadius: 10,
@@ -132,7 +274,7 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: 20,
+    marginVertical: 20,
   },
   botao: {
     display: "flex",
@@ -143,5 +285,6 @@ const styles = StyleSheet.create({
     borderColor: "rgba(134, 93, 255, 0.2)",
     justifyContent: "center",
     alignItems: "center",
+    marginHorizontal: "15%",
   },
 });

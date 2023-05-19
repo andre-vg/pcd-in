@@ -7,6 +7,7 @@ import { AntDesign } from "@expo/vector-icons";
 import Header from "./components/Header";
 import { ThemeContext } from "./App";
 import Profile from "./pages/Profile";
+import Camera from "./pages/Camera";
 
 export default function BottomTabs({ navigation }) {
   const Tab = createBottomTabNavigator();
@@ -40,7 +41,9 @@ export default function BottomTabs({ navigation }) {
     >
       <Tab.Screen
         name="Profile"
-        component={Profile}
+        children={() => (
+          <Profile navigation={navigation} setIsOpen={setIsOpen} />
+        )}
         options={{
           tabBarIcon: ({ focused }) => (
             <View style={styles.icon}>
@@ -109,6 +112,14 @@ export default function BottomTabs({ navigation }) {
               />
             </View>
           ),
+        }}
+      />
+      <Tab.Screen
+        name="Camera"
+        component={Camera}
+        options={{
+          headerShown: false,
+          tabBarButton: () => <View style={{ display: "none" }} />,
         }}
       />
     </Tab.Navigator>

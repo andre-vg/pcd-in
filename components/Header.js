@@ -36,7 +36,7 @@ export default function Header({ navigation }) {
         ) : (
           <Avatar.Text
             size={50}
-            label={user?.name[0]}
+            label={user?.firstName[0].toUpperCase()}
             style={{ backgroundColor: COLORS.SECONDARY }}
           />
         )}

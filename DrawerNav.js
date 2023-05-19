@@ -23,7 +23,7 @@ export default function DrawerNav({ COLORS }) {
         swipeEdgeWidth: (width / 4) * 3,
       }}
     >
-      {user.name ? (
+      {user && user.firstName ? (
         <Drawer.Screen
           name="tab"
           component={BottomTabs}

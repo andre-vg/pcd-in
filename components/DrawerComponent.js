@@ -5,13 +5,14 @@ import {
   View,
   useWindowDimensions,
 } from "react-native";
-import React, { useContext, useRef } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import { Modalize } from "react-native-modalize";
 import Config from "./Config";
 import { ThemeContext } from "../App";
 import { auth } from "../config/FirebaseConfig";
 import { Avatar } from "react-native-paper";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function DrawerComponent({ navigation }) {
   const { width } = useWindowDimensions();
@@ -53,31 +54,23 @@ export default function DrawerComponent({ navigation }) {
   return (
     <>
       <View style={styles.container}>
-        {user.photoURL ? (
-          <Image
-            source={{ uri: user?.photoURL }}
-            style={{
-              width: 64,
-              height: 64,
-              borderRadius: 64,
-              borderWidth: 2,
-              borderColor: COLORS.DARKWHITE,
-            }}
-          />
-        ) : (
-          <Avatar.Text
-            size={64}
-            label={user?.name[0]}
-            style={{ backgroundColor: COLORS.SECONDARY }}
-          />
-        )}
+        <Image
+          source={user?.photoURL ? { uri: user?.photoURL }: require("../assets/user.png")}
+          style={{
+            width: 64,
+            height: 64,
+            borderRadius: 64,
+            borderWidth: 2,
+            borderColor: COLORS.DARKWHITE,
+          }}
+        />
         <Text
           style={[
             { color: COLORS.DARKWHITE, fontSize: 24, marginTop: 8 },
             styles.title,
           ]}
         >
-          {user?.name}
+          {user?.firstName + " " + user?.lastName}
         </Text>
         <Text
           style={[
@@ -103,8 +96,9 @@ export default function DrawerComponent({ navigation }) {
           size={28}
           color={COLORS.DARKWHITE}
           onPress={() => {
-            auth.signOut();
             setUser();
+            AsyncStorage.removeItem("user");
+            auth.signOut();
           }}
         />
       </View>

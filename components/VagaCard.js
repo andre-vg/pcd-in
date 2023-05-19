@@ -73,13 +73,14 @@ const styles = StyleSheet.create({
     padding: 16,
     width: "100%",
     marginVertical: 8,
-    borderRadius: 10,
+    borderRadius: 16,
   },
   image: {
     width: 70,
     height: 70,
-    borderRadius: 70,
+    borderRadius: 8,
     alignSelf: "center",
+    resizeMode: "contain",
   },
   button: {
     alignSelf: "center",

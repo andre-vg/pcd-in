@@ -1,9 +1,39 @@
-import { StyleSheet, Text, View, ScrollView, Image } from "react-native";
-import React, { useContext } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  Image,
+  RefreshControl,
+  ImageBackground,
+  Pressable,
+  TouchableHighlight,
+  TouchableOpacity,
+} from "react-native";
+import React, { useContext, useRef, useState } from "react";
 import { ThemeContext } from "../App";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { db } from "../config/FirebaseConfig";
+import { getAuth } from "firebase/auth/react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { AntDesign } from "@expo/vector-icons";
+import { Modalize } from "react-native-modalize";
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
+import * as ImagePicker from "expo-image-picker";
 
-export default function Profile() {
-  const { COLORS, user } = useContext(ThemeContext);
+export default function Profile({ setIsOpen, navigation }) {
+  const { COLORS, user, setUser } = useContext(ThemeContext);
+  const [refreshing, setRefreshing] = useState(false);
+  const [image, setImage] = useState(null);
+  const storage = getStorage();
+  const storageRef = ref(storage, `users/${getAuth().currentUser.uid}`);
+
+  const modalizeRef = useRef(null);
+
+  const onOpen = () => {
+    modalizeRef.current?.open();
+    setIsOpen(true);
+  };
 
   const styles = StyleSheet.create({
     container: {
@@ -64,90 +94,269 @@ export default function Profile() {
       flexDirection: "row",
       gap: 8,
     },
+    addIcon: {
+      position: "absolute",
+      bottom: 55,
+      marginLeft: 100,
+      backgroundColor: COLORS.SECONDARY,
+      borderRadius: 20,
+      padding: 5,
+      zIndex: 3,
+      borderColor: COLORS.LIGHT,
+      borderWidth: 3,
+    },
+    containerPhoto: {
+      flex: 1,
+      padding: 16,
+      marginTop: 20,
+    },
+    photoButtons: {
+      flexDirection: "row",
+      padding: 16,
+      gap: 32,
+      alignItems: "center",
+      justifyContent: "flex-start",
+      borderRadius: 20,
+    },
   });
 
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await getDoc(doc(db, "users", getAuth().currentUser.uid)).then((doc) => {
+      if (doc.data()) {
+        setUser(doc.data());
+        AsyncStorage.setItem("user", JSON.stringify(doc.data()));
+      } else {
+        setUser([]);
+      }
+      setRefreshing(false);
+    });
+  };
+
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 0.2,
+    });
+
+    if (!result.canceled) {
+      await uploadImageAsync(result.assets[0].uri).then(async (url) => {
+        await setDoc(
+          doc(db, "users", getAuth().currentUser.uid),
+          {
+            photoURL: url,
+          },
+          { merge: true }
+        );
+        await onRefresh();
+        modalizeRef.current?.close();
+      });
+
+      setImage(result.assets[0].uri);
+    }
+  };
+
+  async function uploadImageAsync(uri) {
+    // Why are we using XMLHttpRequest? See:
+    // https://github.com/expo/expo/issues/2402#issuecomment-443726662
+    const blob = await new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.onload = function () {
+        resolve(xhr.response);
+      };
+      xhr.onerror = function (e) {
+        console.log(e);
+        reject(new TypeError("Network request failed"));
+      };
+      xhr.responseType = "blob";
+      xhr.open("GET", uri, true);
+      xhr.send(null);
+    });
+
+    const fileRef = ref(getStorage(), `users/${getAuth().currentUser.uid}`);
+    const result = await uploadBytes(fileRef, blob);
+
+    // We're done with the blob, close and release it
+    blob.close();
+
+    return await getDownloadURL(fileRef);
+  }
+
   return (
-    <ScrollView style={{ backgroundColor: COLORS.LIGHT }}>
-      <View>
-        <Image
-          style={styles.capaProfile}
-          source={require("../assets/capa.jpg")}
-        />
-      </View>
-
-      <View>
-        <Image
-          style={styles.fotoProfile}
-          source={require("../assets/fotoPerfil.jpg")}
-        />
-      </View>
-
-      <View style={styles.info}>
-        <Text style={[styles.titulo, { fontSize: 24 }]}>{user?.name}</Text>
-        <Text style={[styles.titulo, { color: COLORS.SECONDARY, fontSize:16 }]}>
-          CEO do PCD-in
-        </Text>
-        <Text style={[styles.texto, { color: '#bbbbbb' }]}>
-          Taguatinga, Brasília, Brasil
-        </Text>
-      </View>
-
-      <View style={styles.container}>
-        {/* div do container sobre*/}
-        <View style={styles.card}>
-          <Text style={styles.tituloContainer}>Sobre</Text>
-          <View style={styles.conteudoCard}>
-            <Text style={styles.texto}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
-              sollicitudin condimentum est, non pharetra risus tempus vitae.
-              Morbi tempus ac risus sit amet tempus. Duis eu quam a urna maximus
-              condimentum. Pellentesque.
-            </Text>
-          </View>
+    <>
+      <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            colors={[COLORS.SECONDARY, COLORS.THIRD]}
+            progressBackgroundColor={COLORS.GRAY}
+          />
+        }
+        style={{ backgroundColor: COLORS.LIGHT }}
+      >
+        <View>
+          <Image
+            style={styles.capaProfile}
+            source={
+              user?.banner
+                ? { uri: user.banner }
+                : require("../assets/capa.jpg")
+            }
+          />
         </View>
 
-        {/* div do container Experiência*/}
-        <View style={styles.card}>
-          <Text style={styles.tituloContainer}>Experiência</Text>
-          <View style={styles.conteudoCard}>
+        <View>
+          <Pressable onPress={onOpen} style={[styles.fotoProfile]}>
             <Image
-              style={{ width: 70, height: 70, borderRadius: 70 }}
-              source={require("../assets/icon.png")}
+              source={
+                user?.photoURL
+                  ? { uri: user.photoURL }
+                  : require("../assets/user.png")
+              }
+              style={[styles.fotoProfile, { bottom: 0, marginLeft: 0 }]}
             />
-            <View style={{ flex: 1 }}>
-              <Text style={[styles.titulo, { fontSize: 17 }]}>
-                Desenvolvedora de software
-              </Text>
-              <Text style={[styles.titulo, { fontSize: 14, color:COLORS.SECONDARY }]}>Pcd-in</Text>
-              <Text style={styles.texto}>
-                ago de 2021 - set de 2022 (1 ano 2 meses)
-              </Text>
-              <Text style={[styles.texto, {color:'#bbbbbb'}]}>
-                Brasília, Distrito Federal, Brasil
-              </Text>
+          </Pressable>
+          <Pressable onPress={onOpen} style={styles.addIcon}>
+            <AntDesign name="plus" size={16} color={COLORS.LIGHT} />
+          </Pressable>
+        </View>
+
+        <View style={styles.info}>
+          <Text style={[styles.titulo, { fontSize: 24 }]}>
+            {user?.firstName + " " + user?.lastName}
+          </Text>
+          <Text
+            style={[styles.titulo, { color: COLORS.SECONDARY, fontSize: 16 }]}
+          >
+            {user?.titulo}
+          </Text>
+          <Text style={[styles.texto, { color: "#bbbbbb" }]}>
+            Taguatinga, Brasília, Brasil
+          </Text>
+        </View>
+
+        <View style={styles.container}>
+          {/* div do container sobre*/}
+          {!user?.sobre ? null : (
+            <View style={styles.card}>
+              <Text style={styles.tituloContainer}>Sobre</Text>
+              <View style={styles.conteudoCard}>
+                <Text style={styles.texto}>{user?.sobre}</Text>
+              </View>
+            </View>
+          )}
+
+          {/* div do container Experiência*/}
+          <View style={styles.card}>
+            <Text style={styles.tituloContainer}>Experiência</Text>
+            <View style={styles.conteudoCard}>
+              <Image
+                style={{ width: 70, height: 70, borderRadius: 70 }}
+                source={require("../assets/icon.png")}
+              />
+              <View style={{ flex: 1 }}>
+                <Text style={[styles.titulo, { fontSize: 17 }]}>
+                  Desenvolvedora de software
+                </Text>
+                <Text
+                  style={[
+                    styles.titulo,
+                    { fontSize: 14, color: COLORS.SECONDARY },
+                  ]}
+                >
+                  Pcd-in
+                </Text>
+                <Text style={styles.texto}>
+                  ago de 2021 - set de 2022 (1 ano 2 meses)
+                </Text>
+                <Text style={[styles.texto, { color: "#bbbbbb" }]}>
+                  Brasília, Distrito Federal, Brasil
+                </Text>
+              </View>
+            </View>
+          </View>
+
+          {/* div do container Formação*/}
+          <View style={styles.card}>
+            <Text style={styles.tituloContainer}>Formação Acadêmica</Text>
+            <View style={styles.conteudoCard}>
+              <Image
+                style={{ width: 70, height: 70, borderRadius: 70 }}
+                source={require("../assets/icon.png")}
+              />
+              <View style={{ flex: 1 }}>
+                <Text style={[styles.titulo, { fontSize: 17 }]}>
+                  Instituição
+                </Text>
+                <Text
+                  style={[
+                    styles.titulo,
+                    { fontSize: 14, color: COLORS.SECONDARY },
+                  ]}
+                >
+                  Ensino superior, Ciência da computação
+                </Text>
+                <Text
+                  style={[styles.texto, { fontSize: 12, color: "#bbbbbb" }]}
+                >
+                  2017 - 2021
+                </Text>
+              </View>
             </View>
           </View>
         </View>
-
-        {/* div do container Formação*/}
-        <View style={styles.card}>
-          <Text style={styles.tituloContainer}>Formação Acadêmica</Text>
-          <View style={styles.conteudoCard}>
-            <Image
-              style={{ width: 70, height: 70, borderRadius: 70 }}
-              source={require("../assets/icon.png")}
-            />
-            <View style={{ flex: 1 }}>
-              <Text style={[styles.titulo, { fontSize: 17 }]}>Instituição</Text>
-              <Text style={[styles.titulo, { fontSize: 14, color:COLORS.SECONDARY }]}>
-                Ensino superior, Ciência da computação
+        <View style={{ height: 100 }}></View>
+      </ScrollView>
+      <Modalize
+        ref={modalizeRef}
+        modalStyle={{
+          backgroundColor: COLORS.GRAY,
+        }}
+        adjustToContentHeight
+        handlePosition="inside"
+        handleStyle={{
+          backgroundColor: COLORS.SECONDARY,
+          width: 52,
+          height: 8,
+          marginTop: 8,
+        }}
+        onClosed={() => {
+          setIsOpen(false);
+        }}
+      >
+        <View style={styles.containerPhoto}>
+          <TouchableHighlight
+            onPress={() => {
+              navigation.navigate("Camera");
+            }}
+            underlayColor={COLORS.PRIMARY}
+            style={styles.photoButtons}
+          >
+            <>
+              <AntDesign name="camerao" size={32} color={COLORS.SECONDARY} />
+              <Text style={[styles.titulo, { fontSize: 18 }]}>
+                Abrir a camera do dispositivo
               </Text>
-              <Text style={[styles.texto, { fontSize: 12, color:'#bbbbbb' }]}>2017 - 2021</Text>
-            </View>
-          </View>
+            </>
+          </TouchableHighlight>
+          <TouchableHighlight
+            onPress={pickImage}
+            underlayColor={COLORS.PRIMARY}
+            style={styles.photoButtons}
+          >
+            <>
+              <AntDesign name="picture" size={32} color={COLORS.SECONDARY} />
+              <Text style={[styles.titulo, { fontSize: 18 }]}>
+                Escolher da galeria
+              </Text>
+            </>
+          </TouchableHighlight>
         </View>
-      </View>
-      <View style={{ height: 100 }}></View>
-    </ScrollView>
+      </Modalize>
+    </>
   );
 }
