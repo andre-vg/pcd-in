@@ -30,11 +30,7 @@
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      "@react-native-google-signin/google-signin",
-      "expo-image-picker",
-      {
-        "photosPermission": "O acesso às fotos é necessário para que você possa enviar fotos do seu dispositivo."
-      }
+      "@react-native-google-signin/google-signin"
     ],
     "extra": {
       "eas": {
