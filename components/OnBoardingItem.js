@@ -30,8 +30,6 @@ export default function OnBoardingItem({ item, onOpen, userHasAccount }) {
   const [token, setToken] = useState();
   const [userInfo, setUserInfo] = useState(null);
 
-  const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
 
   const [request, response, promptAsync] = Google.useAuthRequest({
     androidClientId:
@@ -40,19 +38,6 @@ export default function OnBoardingItem({ item, onOpen, userHasAccount }) {
       "467455222369-0el706teprheq23e5rbqgvdf2lo9b7k4.apps.googleusercontent.com",
     scopes: ["profile", "email"],
   });
-
-  const signInEmpresa = async () => {
-    const auth = getAuth();
-    signInWithEmailAndPassword(auth, email, senha)
-      .then((userCredential) => {})
-      .catch((error) => {
-        ToastAndroid.showWithGravity(
-          error.message,
-          ToastAndroid.SHORT,
-          ToastAndroid.CENTER
-        );
-      });
-  };
 
   useEffect(() => {
     if (response?.type === "success") {

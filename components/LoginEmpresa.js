@@ -3,33 +3,67 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  ToastAndroid,
   View,
   useWindowDimensions,
 } from "react-native";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { ThemeContext } from "../App";
 import I from "../assets/L.svg";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+} from "firebase/auth/react-native";
+import { auth } from "../config/FirebaseConfig";
 
 export default function LoginEmpresa() {
-  const { COLORS } = useContext(ThemeContext);
+  const { COLORS, setUser,user } = useContext(ThemeContext);
   const { width } = useWindowDimensions();
+
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
+
+  const signInEmpresa = async () => {
+    const auth = getAuth();
+    signInWithEmailAndPassword(auth, email, senha)
+      .then((userCredential) => {
+        // Signed in
+        setUser(userCredential.user);
+        ToastAndroid.show("Bem-vindo", ToastAndroid.SHORT);
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(error);
+        ToastAndroid.show(errorMessage, ToastAndroid.SHORT);
+      });
+  };
 
   return (
     <View style={{ marginTop: 32 }}>
       <I width={width} height={200} />
-      <Text style={[styles.title, { marginTop: 8, color:COLORS.PRIMARY }]}>Bem-vindo</Text>
+      <Text style={[styles.title, { marginTop: 8, color: COLORS.PRIMARY }]}>
+        Bem-vindo
+      </Text>
       <Text style={styles.text}>Faça login para continuar</Text>
       <View style={styles.divInputs}>
         <TextInput
           style={styles.input}
           placeholder="Email"
           placeholderTextColor={COLORS.PRIMARY}
+          onChangeText={(text) => {
+            setEmail(text);
+          }}
         />
         <TextInput
           style={styles.input}
           secureTextEntry={true}
           placeholder="Senha"
           placeholderTextColor={COLORS.PRIMARY}
+          onChangeText={(text) => {
+            setSenha(text);
+          }}
         />
         <Pressable
           style={{
@@ -44,7 +78,7 @@ export default function LoginEmpresa() {
             alignItems: "center",
           }}
           onPress={() => {
-            // signInEmpresa();
+            signInEmpresa();
           }}
         >
           <Text
@@ -57,17 +91,23 @@ export default function LoginEmpresa() {
             Entrar
           </Text>
         </Pressable>
-        <Text style={styles.textRegister}>
-          Ainda não tem uma conta?{" "}
-          <Text
-            style={{
-              color: COLORS.SECONDARY,
-              textDecorationLine: "underline",
-            }}
-          >
-            A FAZER Cadastre-se
+        <Pressable
+          onPress={() => {
+            console.log("A FAZER");
+          }}
+        >
+          <Text style={styles.textRegister}>
+            Ainda não tem uma conta?{" "}
+            <Text
+              style={{
+                color: COLORS.SECONDARY,
+                textDecorationLine: "underline",
+              }}
+            >
+              A FAZER Cadastre-se
+            </Text>
           </Text>
-        </Text>
+        </Pressable>
       </View>
     </View>
   );

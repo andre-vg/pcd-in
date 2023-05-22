@@ -16,7 +16,7 @@ export default function Header({ navigation }) {
       paddingHorizontal: 15,
       height: 70,
       backgroundColor: COLORS.PRIMARY,
-      marginTop: Constants.statusBarHeight,
+      marginTop: Constants.statusBarHeight - 3,
     },
     title: {
       fontSize: 20,

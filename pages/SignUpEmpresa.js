@@ -19,7 +19,7 @@ import { getAuth } from "firebase/auth/react-native";
 import Input from "../components/Input";
 import Constants from "expo-constants";
 
-export default function SignUp() {
+export default function SignUpEmpresa() {
   const { COLORS, user, setUser } = useContext(ThemeContext);
 
   //if user click return button, it will go back to login page
@@ -43,12 +43,11 @@ export default function SignUp() {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      firstName: auth.currentUser.displayName?.split(" ")[0] ?? "",
-      lastName: auth.currentUser.displayName?.split(" ")[1] ?? "",
-      deficiency: null,
-      sobre: null,
-      titulo: null,
-      email: auth.currentUser.email ?? "",
+      firstName: "",
+      lastName: "",
+      email: auth.currentUser.email,
+      titulo: "",
+      isEmpresa: true,
     },
   });
   const onSubmit = async (data) => {
@@ -74,7 +73,7 @@ export default function SignUp() {
           { color: COLORS.DARKWHITE, paddingHorizontal: 20 },
         ]}
       >
-        Cadastro
+        Cadastro de Empresa
       </Text>
       <Text
         style={[
@@ -82,7 +81,7 @@ export default function SignUp() {
           { color: COLORS.SECONDARY, paddingHorizontal: 32, marginTop: 12 },
         ]}
       >
-        Preencha os campos abaixo para que possamos te conhecer melhor!
+        Preencha os campos abaixo para se cadastrar
       </Text>
       <Text
         style={[
@@ -95,7 +94,7 @@ export default function SignUp() {
           },
         ]}
       >
-        Dados Pessoais
+        Dados da Empresa
       </Text>
       <View style={styles.divInputs}>
         <Controller
@@ -106,31 +105,13 @@ export default function SignUp() {
           }}
           render={({ field: { onChange, onBlur, value } }) => (
             <Input
-              label="Nome"
+              label="Nome da Empresa"
               underlineColor={"transparent"}
               activeUnderlineColor={COLORS.SECONDARY}
               value={value}
               onChangeText={onChange}
               onBlur={onBlur}
               error={errors.firstName}
-            />
-          )}
-        />
-        <Controller
-          name="lastName"
-          control={control}
-          rules={{
-            required: true,
-          }}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <Input
-              label="Sobrenome"
-              underlineColor={"transparent"}
-              activeUnderlineColor={COLORS.SECONDARY}
-              value={value}
-              onChangeText={onChange}
-              onBlur={onBlur}
-              error={errors.lastName}
             />
           )}
         />
@@ -155,25 +136,6 @@ export default function SignUp() {
         />
 
         <Controller
-          name="deficiency"
-          control={control}
-          rules={{
-            maxLength: 100,
-          }}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <Input
-              label="Deficiência (opcional)"
-              underlineColor={"transparent"}
-              activeUnderlineColor={COLORS.SECONDARY}
-              value={value}
-              onChangeText={onChange}
-              onBlur={onBlur}
-              error={errors.deficiency}
-            />
-          )}
-        />
-
-        <Controller
           name="titulo"
           control={control}
           rules={{
@@ -181,7 +143,7 @@ export default function SignUp() {
           }}
           render={({ field: { onChange, onBlur, value } }) => (
             <Input
-              label="Título"
+              label="Descrição da Empresa"
               underlineColor={"transparent"}
               activeUnderlineColor={COLORS.SECONDARY}
               value={value}
@@ -203,7 +165,7 @@ export default function SignUp() {
           },
         ]}
       >
-        Sobre (opcional)
+        Sobre a Empresa
       </Text>
       <View style={styles.divInputs}>
         <Controller
@@ -214,7 +176,7 @@ export default function SignUp() {
           }}
           render={({ field: { onChange, onBlur, value } }) => (
             <Input
-              label="Conte um pouco sobre você!"
+              label="Conte um pouco sobre a empresa"
               underlineColor={"transparent"}
               activeUnderlineColor={COLORS.SECONDARY}
               multiline={true}
