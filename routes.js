@@ -8,6 +8,7 @@ import Header from "./components/Header";
 import { ThemeContext } from "./App";
 import Profile from "./pages/Profile";
 import Camera from "./pages/Camera";
+import EditProfile from "./pages/EditProfile";
 
 export default function BottomTabs({ navigation }) {
   const Tab = createBottomTabNavigator();
@@ -24,6 +25,7 @@ export default function BottomTabs({ navigation }) {
         headerShown: true,
         header: () => <Header navigation={navigation} />,
         tabBarShowLabel: false,
+        tabBarHideOnKeyboard: true,
         tabBarStyle: {
           position: "absolute",
           display: isOpen ? "none" : "flex",
@@ -116,12 +118,22 @@ export default function BottomTabs({ navigation }) {
       />
       <Tab.Screen
         name="Camera"
-        component={Camera}
+        children={
+          () => <EditProfile navigation={navigation} setIsOpen={setIsOpen} />
+        }
         options={{
           headerShown: false,
           tabBarButton: () => <View style={{ display: "none" }} />,
         }}
       />
+      <Tab.Screen
+        name="EditProfile"
+        component={EditProfile}
+        options={{
+          headerShown: false,
+          tabBarButton: () => <View style={{ display: "none" }} />,
+        }}
+       />
     </Tab.Navigator>
   );
 }

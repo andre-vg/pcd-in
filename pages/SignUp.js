@@ -210,7 +210,7 @@ export default function SignUp() {
           name="sobre"
           control={control}
           rules={{
-            maxLength: 100,
+            maxLength: 400,
           }}
           render={({ field: { onChange, onBlur, value } }) => (
             <Input
@@ -223,7 +223,7 @@ export default function SignUp() {
               onChangeText={onChange}
               onBlur={onBlur}
               error={errors.sobre}
-              maxLength={100}
+              maxLength={400}
             />
           )}
         />

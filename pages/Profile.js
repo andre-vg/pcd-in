@@ -9,6 +9,7 @@ import {
   Pressable,
   TouchableHighlight,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import React, { useContext, useRef, useState } from "react";
 import { ThemeContext } from "../App";
@@ -20,6 +21,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { Modalize } from "react-native-modalize";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import * as ImagePicker from "expo-image-picker";
+import { ProgressBar } from "react-native-paper";
 
 export default function Profile({ setIsOpen, navigation }) {
   const { COLORS, user, setUser } = useContext(ThemeContext);
@@ -27,6 +29,7 @@ export default function Profile({ setIsOpen, navigation }) {
   const [image, setImage] = useState(null);
   const storage = getStorage();
   const storageRef = ref(storage, `users/${getAuth().currentUser.uid}`);
+  const [loading, setLoading] = useState(false);
 
   const modalizeRef = useRef(null);
 
@@ -68,9 +71,10 @@ export default function Profile({ setIsOpen, navigation }) {
       width: "100%",
       borderRadius: 20,
       borderStyle: "solid",
-      borderColor: COLORS.PRIMARY,
+      borderColor: COLORS.SECONDARY,
       borderWidth: 2,
-      padding: 8,
+      paddingVertical: 8,
+      paddingHorizontal: 8,
     },
 
     tituloContainer: {
@@ -82,17 +86,18 @@ export default function Profile({ setIsOpen, navigation }) {
     titulo: {
       fontFamily: "Lexend_700Bold",
       color: COLORS.DARKWHITE,
+      fontSize: 20,
     },
     texto: {
       fontFamily: "Lexend_400Regular",
       color: COLORS.DARKWHITE,
-      fontSize: 12,
+      fontSize: 16,
     },
     conteudoCard: {
-      padding: 12,
       flex: 1,
+      padding: 8,
       flexDirection: "row",
-      gap: 8,
+      gap: 16,
     },
     addIcon: {
       position: "absolute",
@@ -117,6 +122,14 @@ export default function Profile({ setIsOpen, navigation }) {
       alignItems: "center",
       justifyContent: "flex-start",
       borderRadius: 20,
+    },
+    edit: {
+      position: "absolute",
+      top: 140,
+      right: 20,
+      backgroundColor: COLORS.GRAY,
+      borderRadius: 20,
+      padding: 10,
     },
   });
 
@@ -143,6 +156,9 @@ export default function Profile({ setIsOpen, navigation }) {
     });
 
     if (!result.canceled) {
+      modalizeRef.current?.close();
+      setIsOpen(true);
+      setLoading(true);
       await uploadImageAsync(result.assets[0].uri).then(async (url) => {
         await setDoc(
           doc(db, "users", getAuth().currentUser.uid),
@@ -152,7 +168,8 @@ export default function Profile({ setIsOpen, navigation }) {
           { merge: true }
         );
         await onRefresh();
-        modalizeRef.current?.close();
+        setLoading(false);
+        setIsOpen(false);
       });
 
       setImage(result.assets[0].uri);
@@ -187,6 +204,21 @@ export default function Profile({ setIsOpen, navigation }) {
 
   return (
     <>
+      {loading && (
+        <View
+          style={{
+            position: "absolute",
+            width: "100%",
+            height: "100%",
+            backgroundColor: "#000000aa",
+            zIndex: 10,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <ActivityIndicator size="large" color={COLORS.SECONDARY} />
+        </View>
+      )}
       <ScrollView
         refreshControl={
           <RefreshControl
@@ -224,18 +256,34 @@ export default function Profile({ setIsOpen, navigation }) {
             <AntDesign name="plus" size={16} color={COLORS.LIGHT} />
           </Pressable>
         </View>
+        <TouchableHighlight
+          onPress={() => navigation.navigate("EditProfile")}
+          style={styles.edit}
+          underlayColor={COLORS.THIRD}
+        >
+          <AntDesign name="edit" size={24} color={COLORS.SECONDARY} />
+        </TouchableHighlight>
 
         <View style={styles.info}>
           <Text style={[styles.titulo, { fontSize: 24 }]}>
             {user?.firstName + " " + user?.lastName}
           </Text>
           <Text
-            style={[styles.titulo, { color: COLORS.SECONDARY, fontSize: 16 }]}
+            style={[
+              styles.titulo,
+              {
+                color: COLORS.SECONDARY,
+                fontSize: 16,
+                textDecorationLine: "underline",
+                textDecorationColor: COLORS.SECONDARY,
+                textDecorationStyle: "dashed",
+              },
+            ]}
           >
             {user?.titulo}
           </Text>
           <Text style={[styles.texto, { color: "#bbbbbb" }]}>
-            Taguatinga, Brasília, Brasil
+            {user.location}
           </Text>
         </View>
 
@@ -259,20 +307,18 @@ export default function Profile({ setIsOpen, navigation }) {
                 source={require("../assets/icon.png")}
               />
               <View style={{ flex: 1 }}>
-                <Text style={[styles.titulo, { fontSize: 17 }]}>
+                <Text style={[styles.titulo, { fontSize: 20 }]}>
                   Desenvolvedora de software
                 </Text>
                 <Text
                   style={[
-                    styles.titulo,
-                    { fontSize: 14, color: COLORS.SECONDARY },
+                    styles.texto,
+                    { fontSize: 16, color: COLORS.DARKWHITE },
                   ]}
                 >
                   Pcd-in
                 </Text>
-                <Text style={styles.texto}>
-                  ago de 2021 - set de 2022 (1 ano 2 meses)
-                </Text>
+                <Text style={styles.texto}>ago 2021 - set 2022</Text>
                 <Text style={[styles.texto, { color: "#bbbbbb" }]}>
                   Brasília, Distrito Federal, Brasil
                 </Text>
