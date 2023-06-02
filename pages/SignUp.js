@@ -243,6 +243,7 @@ export default function SignUp() {
           Cadastrar
         </Text>
       </TouchableOpacity>
+      <View style={{ height: 100 }} />
     </ScrollView>
   );
 }
