@@ -1,4 +1,11 @@
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import {
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  TouchableHighlight,
+  View,
+} from "react-native";
 import { Entypo, FontAwesome5, AntDesign } from "@expo/vector-icons";
 import React, { useContext, useEffect } from "react";
 import { ThemeContext } from "../App";
@@ -7,9 +14,9 @@ export default function VagaCard({ info, onOpen }) {
   const { COLORS } = useContext(ThemeContext);
 
   return (
-    <Pressable
+    <TouchableHighlight
       onPress={() => {
-        onOpen();
+        onOpen(info);
       }}
       style={[
         styles.card,
@@ -17,50 +24,53 @@ export default function VagaCard({ info, onOpen }) {
           backgroundColor: COLORS.GRAY,
         },
       ]}
+      underlayColor={COLORS.PRIMARY}
     >
-      <Image source={{ uri: info.logo_empresa }} style={styles.image} />
-      {/* <FontAwesome5 name={nome.toLowerCase()} size={56} color={COLORS.THIRD} style={styles.image} /> */}
-      <View
-        style={{
-          flex: 1,
-          flexDirection: "column",
-          justifyContent: "center",
-        }}
-      >
-        <Text
+      <>
+        <Image source={{ uri: info.logo_empresa }} style={styles.image} />
+        {/* <FontAwesome5 name={nome.toLowerCase()} size={56} color={COLORS.THIRD} style={styles.image} /> */}
+        <View
           style={{
-            color: COLORS.DARKWHITE,
-            fontSize: 16,
-            fontFamily: "Lexend_400Regular",
+            flex: 1,
+            flexDirection: "column",
+            justifyContent: "center",
           }}
         >
-          {info.titulo}
-        </Text>
-        <Text
-          style={{
-            color: COLORS.SECONDARY,
-            fontSize: 13,
-            fontFamily: "Lexend_700Bold",
-            marginTop: 4,
-          }}
-        >
-          {info.empresa}
-        </Text>
-        <Text
-          style={{
-            color: "#bbb",
-            fontSize: 13,
-            fontFamily: "Lexend_400Regular",
-          }}
-        >
-          {info.cidade}
-        </Text>
-      </View>
-      <Pressable style={styles.button}>
-        {/* <Entypo name="magnifying-glass" size={48} color={COLORS.SECONDARY} /> */}
+          <Text
+            style={{
+              color: COLORS.DARKWHITE,
+              fontSize: 16,
+              fontFamily: "Lexend_400Regular",
+            }}
+          >
+            {info.titulo}
+          </Text>
+          <Text
+            style={{
+              color: COLORS.SECONDARY,
+              fontSize: 13,
+              fontFamily: "Lexend_700Bold",
+              marginTop: 4,
+            }}
+          >
+            {info.empresa}
+          </Text>
+          <Text
+            style={{
+              color: "#bbb",
+              fontSize: 13,
+              fontFamily: "Lexend_400Regular",
+            }}
+          >
+            {info.cidade}
+          </Text>
+        </View>
+      </>
+
+      {/* <Pressable style={styles.button}>
         <AntDesign name="form" size={36} color={COLORS.SECONDARY} />
-      </Pressable>
-    </Pressable>
+      </Pressable> */}
+    </TouchableHighlight>
   );
 }
 

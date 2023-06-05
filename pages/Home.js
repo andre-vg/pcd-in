@@ -15,12 +15,10 @@ import VagaDetails from "./VagaDetails";
 export default function Home({ navigation, setIsOpen }) {
   const { COLORS } = useContext(ThemeContext);
   const [vagas, setVagas] = useState([]);
+  const [dados, setDados] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
 
   const refModalVagas = useRef(null);
-
-  let a = ["Google", "Facebook", "Apple", "Microsoft"];
-  let cargos = ["Desenvolvedor", "Analista de Sistemas", "Analista de Dados"];
 
   const baseURL =
     "https://xz4kdcpix4.execute-api.sa-east-1.amazonaws.com/usuario/";
@@ -42,7 +40,8 @@ export default function Home({ navigation, setIsOpen }) {
     });
   };
 
-  const onOpen = () => {
+  const onOpen = (info) => {
+    setDados(info);
     refModalVagas.current?.open();
     setIsOpen(true);
   };
@@ -70,6 +69,7 @@ export default function Home({ navigation, setIsOpen }) {
             info={item}
             navigation={navigation}
             onOpen={onOpen}
+            setDados={setDados}
           />
         ))}
         <View style={{ height: 100 }}></View>
@@ -88,7 +88,9 @@ export default function Home({ navigation, setIsOpen }) {
         }}
         onClose={() => setIsOpen(false)}
       >
-        <VagaDetails />
+        <VagaDetails 
+          info={dados}
+        />
       </Modalize>
     </>
   );

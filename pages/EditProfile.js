@@ -243,7 +243,7 @@ export default function EditProfile({ navigation, setIsOpen }) {
           fontFamily: "Lexend_400Regular",
         }}
         textColor={COLORS.DARKWHITE}
-        labelStyle={{ fontFamily: "Lexend_700Bold", fontSize: 18 }}
+        labelStyle={{ fontFamily: "Lexend_400Regular", fontSize: 18 }}
         onPress={onSubmit}
       >
         Salvar

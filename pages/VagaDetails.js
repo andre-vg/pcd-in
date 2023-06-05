@@ -1,19 +1,22 @@
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { ThemeContext } from "../App";
 
-export default function VagaDetails() {
+export default function VagaDetails(props) {
   const { COLORS } = useContext(ThemeContext);
+  useEffect(() => {
+    console.log(props.info);
+  }, []);
   return (
-    <ScrollView style={{ padding: 16 }}>
+    <ScrollView style={{ paddingHorizontal: 24, paddingVertical:40 }}>
       <Text
         style={{
           color: COLORS.DARKWHITE,
-          fontSize: 16,
+          fontSize: 20,
           fontFamily: "Lexend_400Regular",
         }}
       >
-        Aqui vai ter os detalhes da vaga
+        {props.info.descricao}
       </Text>
     </ScrollView>
   );
