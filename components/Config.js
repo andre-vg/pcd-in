@@ -21,10 +21,10 @@ export default function Config() {
       setCOLORS({
         PRIMARY: "#271D3F",
         SECONDARY: "#6D4693",
-        THIRD: "#A385FF",
-        LIGHT: "#000000",
+        THIRD: "#865DFF",
+        LIGHT: "#16161D",
         DARKWHITE: "#ffffff",
-        GRAY: "#202020",
+        GRAY: "#333333",
       });
       AsyncStorage.setItem("Theme", "dark");
       setCheckedDeuteranopia(false);
@@ -77,8 +77,8 @@ export default function Config() {
     },
     checkbox: {
       alignSelf: "center",
-      height: 24,
-      width: 24,
+      height: 32,
+      width: 32,
       borderRadius: 8,
     },
     linha: {

@@ -3,6 +3,7 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  TouchableHighlight,
   View,
 } from "react-native";
 import React, { useContext, useEffect, useRef, useState } from "react";
@@ -80,17 +81,71 @@ export default function Home({ navigation, setIsOpen }) {
         modalStyle={{
           backgroundColor: COLORS.GRAY,
         }}
-        modalTopOffset={70}
-        snapPoint={500}
+        modalTopOffset={50}
         handlePosition="inside"
         handleStyle={{
           backgroundColor: COLORS.SECONDARY,
+          width: 60,
+          height: 5,
+          marginVertical: 2,
         }}
+        HeaderComponent={
+          <View
+            style={{
+              backgroundColor: COLORS.GRAY,
+              height: 25,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          ></View>
+        }
+        FooterComponent={
+          <View
+            style={{
+              backgroundColor: COLORS.GRAY,
+              height: 70,
+              justifyContent: "space-evenly",
+              alignItems: "center",
+              flexDirection: "row",
+            }}
+          >
+            <TouchableHighlight
+              style={{
+                backgroundColor: COLORS.SECONDARY,
+                justifyContent: "center",
+                alignItems: "center",
+                borderRadius: 10,
+                height: "90%",
+                width: "48%",
+              }}
+              onPress={() => {
+                console.log("Candidatar-se");
+              }}
+              underlayColor={COLORS.THIRD}
+            >
+              <Text style={{ color: COLORS.DARKWHITE, fontFamily:"Lexend_400Regular", fontSize:16 }}>Candidatar-se</Text>
+            </TouchableHighlight>
+            <TouchableHighlight
+              style={{
+                backgroundColor: COLORS.LIGHT,
+                justifyContent: "center",
+                alignItems: "center",
+                borderRadius: 10,
+                height: "90%",
+                width: "48%",
+              }}
+              onPress={() => {
+                console.log("Candidatar-se");
+              }}
+              underlayColor={COLORS.THIRD}
+            >
+              <Text style={{ color: COLORS.DARKWHITE, fontFamily:"Lexend_400Regular", fontSize:16 }}>Candidatar-se</Text>
+            </TouchableHighlight>
+          </View>
+        }
         onClose={() => setIsOpen(false)}
       >
-        <VagaDetails 
-          info={dados}
-        />
+        <VagaDetails info={dados} />
       </Modalize>
     </>
   );

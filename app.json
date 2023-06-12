@@ -3,7 +3,7 @@
     "name": "pcd-in",
     "slug": "pcd-in",
     "scheme": "pcd-in",
-    "version": "1.14.0",
+    "version": "1.15.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
@@ -19,7 +19,7 @@
     },
     "android": {
       "googleServicesFile": "./google-services.json",
-      "versionCode": 14,
+      "versionCode": 15,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#392C5C"

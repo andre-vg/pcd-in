@@ -39,7 +39,7 @@ export default function VagaCard({ info, onOpen }) {
           <Text
             style={{
               color: COLORS.DARKWHITE,
-              fontSize: 16,
+              fontSize: 18,
               fontFamily: "Lexend_400Regular",
             }}
           >
@@ -48,7 +48,7 @@ export default function VagaCard({ info, onOpen }) {
           <Text
             style={{
               color: COLORS.SECONDARY,
-              fontSize: 13,
+              fontSize: 16,
               fontFamily: "Lexend_700Bold",
               marginTop: 4,
             }}
@@ -57,8 +57,8 @@ export default function VagaCard({ info, onOpen }) {
           </Text>
           <Text
             style={{
-              color: "#bbb",
-              fontSize: 13,
+              color: "#a2a2a2",
+              fontSize: 14,
               fontFamily: "Lexend_400Regular",
             }}
           >
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     padding: 16,
     width: "100%",
     marginVertical: 8,
-    borderRadius: 16,
+    borderRadius: 12,
   },
   image: {
     width: 70,

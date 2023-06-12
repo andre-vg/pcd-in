@@ -4,15 +4,12 @@ import { ThemeContext } from "../App";
 
 export default function VagaDetails(props) {
   const { COLORS } = useContext(ThemeContext);
-  useEffect(() => {
-    console.log(props.info);
-  }, []);
   return (
-    <ScrollView style={{ paddingHorizontal: 24, paddingVertical:40 }}>
+    <ScrollView style={{ paddingHorizontal: 24, paddingVertical:10 }}>
       <Text
         style={{
           color: COLORS.DARKWHITE,
-          fontSize: 20,
+          fontSize: 16,
           fontFamily: "Lexend_400Regular",
         }}
       >
