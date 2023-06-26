@@ -3,6 +3,7 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  ToastAndroid,
   TouchableHighlight,
   View,
 } from "react-native";
@@ -111,22 +112,6 @@ export default function Home({ navigation, setIsOpen }) {
           >
             <TouchableHighlight
               style={{
-                backgroundColor: COLORS.SECONDARY,
-                justifyContent: "center",
-                alignItems: "center",
-                borderRadius: 10,
-                height: "90%",
-                width: "48%",
-              }}
-              onPress={() => {
-                console.log("Candidatar-se");
-              }}
-              underlayColor={COLORS.THIRD}
-            >
-              <Text style={{ color: COLORS.DARKWHITE, fontFamily:"Lexend_400Regular", fontSize:16 }}>Candidatar-se</Text>
-            </TouchableHighlight>
-            <TouchableHighlight
-              style={{
                 backgroundColor: COLORS.LIGHT,
                 justifyContent: "center",
                 alignItems: "center",
@@ -135,11 +120,44 @@ export default function Home({ navigation, setIsOpen }) {
                 width: "48%",
               }}
               onPress={() => {
-                console.log("Candidatar-se");
+                refModalVagas.current?.close();
+                setIsOpen(false);
               }}
-              underlayColor={COLORS.THIRD}
+              underlayColor={COLORS.PRIMARY}
             >
-              <Text style={{ color: COLORS.DARKWHITE, fontFamily:"Lexend_400Regular", fontSize:16 }}>Candidatar-se</Text>
+              <Text
+                style={{
+                  color: COLORS.DARKWHITE,
+                  fontFamily: "Lexend_400Regular",
+                  fontSize: 16,
+                }}
+              >
+                Fechar
+              </Text>
+            </TouchableHighlight>
+            <TouchableHighlight
+              style={{
+                backgroundColor: COLORS.SECONDARY,
+                justifyContent: "center",
+                alignItems: "center",
+                borderRadius: 10,
+                height: "90%",
+                width: "48%",
+              }}
+              onPress={() => {
+                ToastAndroid.show("Você foi cadastrado na vaga!", ToastAndroid.SHORT);
+              }}
+              underlayColor={COLORS.PRIMARY}
+            >
+              <Text
+                style={{
+                  color: COLORS.DARKWHITE,
+                  fontFamily: "Lexend_400Regular",
+                  fontSize: 16,
+                }}
+              >
+                Candidatar-se
+              </Text>
             </TouchableHighlight>
           </View>
         }

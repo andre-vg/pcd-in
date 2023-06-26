@@ -10,6 +10,7 @@ import {
   TouchableHighlight,
   TouchableOpacity,
   ActivityIndicator,
+  ToastAndroid,
 } from "react-native";
 import React, { useContext, useRef, useState } from "react";
 import { ThemeContext } from "../App";
@@ -30,6 +31,7 @@ export default function Profile({ setIsOpen, navigation }) {
   const storage = getStorage();
   const storageRef = ref(storage, `users/${getAuth().currentUser.uid}`);
   const [loading, setLoading] = useState(false);
+  const [isBanner, setIsBanner] = useState();
 
   const modalizeRef = useRef(null);
 
@@ -151,28 +153,50 @@ export default function Profile({ setIsOpen, navigation }) {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [1, 1],
-      quality: 0.2,
+      aspect: isBanner ? [206,65] :[1, 1],
+      quality: 0.4,
     });
 
-    if (!result.canceled) {
-      modalizeRef.current?.close();
-      setIsOpen(true);
-      setLoading(true);
-      await uploadImageAsync(result.assets[0].uri).then(async (url) => {
-        await setDoc(
-          doc(db, "users", getAuth().currentUser.uid),
-          {
-            photoURL: url,
-          },
-          { merge: true }
-        );
-        await onRefresh();
-        setLoading(false);
-        setIsOpen(false);
-      });
+    if (!isBanner) {
+      if (!result.canceled) {
+        modalizeRef.current?.close();
+        setIsOpen(true);
+        setLoading(true);
+        await uploadImageAsync(result.assets[0].uri).then(async (url) => {
+          await setDoc(
+            doc(db, "users", getAuth().currentUser.uid),
+            {
+              photoURL: url,
+            },
+            { merge: true }
+          );
+          await onRefresh();
+          setLoading(false);
+          setIsOpen(false);
+        });
 
-      setImage(result.assets[0].uri);
+        setImage(result.assets[0].uri);
+      }
+    } else {
+      if (!result.canceled) {
+        modalizeRef.current?.close();
+        setIsOpen(true);
+        setLoading(true);
+        await uploadImageAsync(result.assets[0].uri).then(async (url) => {
+          await setDoc(
+            doc(db, "users", getAuth().currentUser.uid),
+            {
+              banner: url,
+            },
+            { merge: true }
+          );
+          await onRefresh();
+          setLoading(false);
+          setIsOpen(false);
+        });
+
+        setImage(result.assets[0].uri);
+      }
     }
   };
 
@@ -231,18 +255,31 @@ export default function Profile({ setIsOpen, navigation }) {
         style={{ backgroundColor: COLORS.LIGHT }}
       >
         <View>
-          <Image
-            style={styles.capaProfile}
-            source={
-              user?.banner
-                ? { uri: user.banner }
-                : require("../assets/capa.jpg")
-            }
-          />
+          <Pressable
+            onPress={() => {
+              setIsBanner(true);
+              onOpen();
+            }}
+          >
+            <Image
+              style={styles.capaProfile}
+              source={
+                user?.banner
+                  ? { uri: user.banner }
+                  : require("../assets/capa.png")
+              }
+            />
+          </Pressable>
         </View>
 
         <View>
-          <Pressable onPress={onOpen} style={[styles.fotoProfile]}>
+          <Pressable
+            onPress={() => {
+              setIsBanner(false);
+              onOpen();
+            }}
+            style={[styles.fotoProfile]}
+          >
             <Image
               source={
                 user?.photoURL
@@ -377,7 +414,10 @@ export default function Profile({ setIsOpen, navigation }) {
         <View style={styles.containerPhoto}>
           <TouchableHighlight
             onPress={() => {
-              navigation.navigate("Camera");
+              ToastAndroid.show(
+                "Funcionalidade em Desenvolvimento! 😅",
+                ToastAndroid.LONG
+              );
             }}
             underlayColor={COLORS.PRIMARY}
             style={styles.photoButtons}

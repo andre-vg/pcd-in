@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, useWindowDimensions } from "react-native";
+import { StyleSheet, Text, ToastAndroid, View, useWindowDimensions } from "react-native";
 import React, { useContext, useEffect } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Home from "./pages/Home";
@@ -114,6 +114,13 @@ export default function BottomTabs({ navigation }) {
               />
             </View>
           ),
+        }}
+        listeners={{
+          tabPress: e => {
+            // Prevent default action
+            e.preventDefault();
+            ToastAndroid.show("Em desenvolvimento! 🚧", ToastAndroid.SHORT);
+          },
         }}
       />
       <Tab.Screen
