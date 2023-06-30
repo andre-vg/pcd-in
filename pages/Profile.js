@@ -298,7 +298,7 @@ export default function Profile({ setIsOpen, navigation }) {
           style={styles.edit}
           underlayColor={COLORS.THIRD}
         >
-          <AntDesign name="edit" size={24} color={COLORS.SECONDARY} />
+          <AntDesign name="edit" size={24} suppressHighlighting color={COLORS.SECONDARY} />
         </TouchableHighlight>
 
         <View style={styles.info}>
@@ -311,15 +311,13 @@ export default function Profile({ setIsOpen, navigation }) {
               {
                 color: COLORS.SECONDARY,
                 fontSize: 16,
-                textDecorationLine: "underline",
                 textDecorationColor: COLORS.SECONDARY,
-                textDecorationStyle: "dashed",
               },
             ]}
           >
             {user?.titulo}
           </Text>
-          <Text style={[styles.texto, { color: "#bbbbbb" }]}>
+          <Text style={[styles.texto, { color: "#a2a2a2" }]}>
             {user.location}
           </Text>
         </View>
@@ -350,13 +348,13 @@ export default function Profile({ setIsOpen, navigation }) {
                 <Text
                   style={[
                     styles.texto,
-                    { fontSize: 16, color: COLORS.DARKWHITE },
+                    { fontSize: 18, color: COLORS.SECONDARY },
                   ]}
                 >
                   Pcd-in
                 </Text>
-                <Text style={styles.texto}>ago 2021 - set 2022</Text>
-                <Text style={[styles.texto, { color: "#bbbbbb" }]}>
+                <Text style={[styles.texto, { color: "#a2a2a2" }]}>ago 2021 - set 2022</Text>
+                <Text style={[styles.texto, { color: "#a2a2a2" }]}>
                   Brasília, Distrito Federal, Brasil
                 </Text>
               </View>

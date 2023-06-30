@@ -2,6 +2,7 @@ import {
   Image,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
   useWindowDimensions,
 } from "react-native";
@@ -55,7 +56,11 @@ export default function DrawerComponent({ navigation }) {
     <>
       <View style={styles.container}>
         <Image
-          source={user?.photoURL ? { uri: user?.photoURL }: require("../assets/user.png")}
+          source={
+            user?.photoURL
+              ? { uri: user?.photoURL }
+              : require("../assets/user.png")
+          }
           style={{
             width: 64,
             height: 64,
@@ -82,25 +87,24 @@ export default function DrawerComponent({ navigation }) {
           {user?.email}
         </Text>
 
-        <MaterialIcons
-          name="accessibility-new"
-          size={36}
-          style={styles.config}
-          color={COLORS.DARKWHITE}
-          onPress={() => onOpen()}
-        />
+        <TouchableOpacity style={styles.config} onPress={() => onOpen()}>
+          <MaterialIcons
+            name="accessibility-new"
+            size={36}
+            color={COLORS.DARKWHITE}
+          />
+        </TouchableOpacity>
 
-        <AntDesign
-          name="logout"
+        <TouchableOpacity
           style={styles.logOut}
-          size={28}
-          color={COLORS.DARKWHITE}
           onPress={() => {
             setUser();
             AsyncStorage.removeItem("user");
             auth.signOut();
           }}
-        />
+        >
+          <AntDesign name="logout" size={28} color={COLORS.DARKWHITE} />
+        </TouchableOpacity>
       </View>
       <Modalize
         ref={modalizeRef}

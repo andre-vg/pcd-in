@@ -11,13 +11,14 @@ import {
   ScrollView,
 } from "react-native";
 import { useForm, Controller } from "react-hook-form";
-import { useContext, useEffect } from "react";
-import { ThemeContext, UserContext } from "../App";
+import { useContext, useEffect, useState } from "react";
+import { ThemeContext } from "../App";
 import { doc, setDoc } from "firebase/firestore";
 import { auth, db } from "../config/FirebaseConfig";
 import { getAuth } from "firebase/auth/react-native";
 import Input from "../components/Input";
 import Constants from "expo-constants";
+import { Picker } from "@react-native-picker/picker";
 
 export default function SignUp() {
   const { COLORS, user, setUser } = useContext(ThemeContext);
@@ -46,6 +47,7 @@ export default function SignUp() {
       firstName: auth.currentUser.displayName?.split(" ")[0] ?? "",
       lastName: auth.currentUser.displayName?.split(" ")[1] ?? "",
       deficiency: null,
+      grau: null,
       sobre: null,
       titulo: null,
       email: auth.currentUser.email ?? "",
@@ -158,18 +160,62 @@ export default function SignUp() {
           name="deficiency"
           control={control}
           rules={{
-            maxLength: 100,
+            required: true,
           }}
           render={({ field: { onChange, onBlur, value } }) => (
-            <Input
-              label="Deficiência (opcional)"
-              underlineColor={"transparent"}
-              activeUnderlineColor={COLORS.SECONDARY}
-              value={value}
-              onChangeText={onChange}
-              onBlur={onBlur}
-              error={errors.deficiency}
-            />
+            <Picker
+              style={{
+                width: "80%",
+                fontSize: 20,
+                fontFamily: "Lexend_400Regular",
+                borderRadius: 10,
+                backgroundColor: COLORS.SECONDARY,
+              }}
+              itemStyle={{
+                fontSize: 20,
+                fontFamily: "Lexend_400Regular",
+              }}
+              selectedValue={value}
+              onValueChange={(itemValue, itemIndex) =>
+                onChange(itemValue, itemIndex)
+              }
+            >
+              <Picker.Item label="Auditiva" value="auditiva" />
+              <Picker.Item label="Visual" value="visual" />
+              <Picker.Item label="Motora" value="motora" />
+              <Picker.Item label="Intelectual" value="intelectual" />
+            </Picker>
+          )}
+        />
+
+        <Controller
+          name="grau"
+          control={control}
+          rules={{
+            required: true,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <Picker
+              style={{
+                width: "80%",
+                fontSize: 20,
+                fontFamily: "Lexend_400Regular",
+                borderRadius: 10,
+                backgroundColor: COLORS.SECONDARY,
+              }}
+              itemStyle={{
+                fontSize: 20,
+                fontFamily: "Lexend_400Regular",
+              }}
+              selectedValue={value}
+              onValueChange={(itemValue, itemIndex) =>
+                onChange(itemValue, itemIndex)
+              }
+            >
+              <Picker.Item label="1" value="1" />
+              <Picker.Item label="2" value="2" />
+              <Picker.Item label="3" value="3" />
+            </Picker>
           )}
         />
 
@@ -181,7 +227,7 @@ export default function SignUp() {
           }}
           render={({ field: { onChange, onBlur, value } }) => (
             <Input
-              label="Título"
+              label="Cargo"
               underlineColor={"transparent"}
               activeUnderlineColor={COLORS.SECONDARY}
               value={value}

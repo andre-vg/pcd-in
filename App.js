@@ -27,9 +27,9 @@ export default function App2() {
     PRIMARY: "#A385FF",
     SECONDARY: "#865DFF",
     THIRD: "#C5A6E3",
-    LIGHT: "#ffffff",
+    LIGHT: "#f7f7f7",
     DARKWHITE: "#000000",
-    GRAY: "#f0efef",
+    GRAY: "#efefef",
   });
   const [user, setUser] = useState();
 
@@ -39,10 +39,10 @@ export default function App2() {
         setCOLORS({
           PRIMARY: "#271D3F",
           SECONDARY: "#6D4693",
-          THIRD: "#A385FF",
-          LIGHT: "#000000",
+          THIRD: "#865DFF",
+          LIGHT: "#16161D",
           DARKWHITE: "#ffffff",
-          GRAY: "#202020",
+          GRAY: "#333333",
         });
       }
       if (mode === "light") {
@@ -50,9 +50,9 @@ export default function App2() {
           PRIMARY: "#A385FF",
           SECONDARY: "#865DFF",
           THIRD: "#C5A6E3",
-          LIGHT: "#ffffff",
+          LIGHT: "#f7f7f7",
           DARKWHITE: "#000000",
-          GRAY: "#f0efef",
+          GRAY: "#efefef",
         });
       }
       if (mode === "deuteranopia") {
@@ -60,9 +60,9 @@ export default function App2() {
           PRIMARY: "#058ed9",
           SECONDARY: "#cc2d35",
           THIRD: "#e1daae",
-          LIGHT: "#ffffff",
+          LIGHT: "#f7f7f7",
           DARKWHITE: "#000000",
-          GRAY: "#f0efef",
+          GRAY: "#efefef",
         });
       }
     });

@@ -32,6 +32,7 @@ export default function VagaCard({ info, onOpen }) {
         <View
           style={{
             flex: 1,
+            gap: 2,
             flexDirection: "column",
             justifyContent: "center",
           }}
@@ -49,8 +50,7 @@ export default function VagaCard({ info, onOpen }) {
             style={{
               color: COLORS.SECONDARY,
               fontSize: 16,
-              fontFamily: "Lexend_700Bold",
-              marginTop: 4,
+              fontFamily: "Lexend_400Regular",
             }}
           >
             {info.empresa}

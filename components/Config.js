@@ -36,9 +36,9 @@ export default function Config() {
         PRIMARY: "#A385FF",
         SECONDARY: "#865DFF",
         THIRD: "#C5A6E3",
-        LIGHT: "#f0f0f0",
+        LIGHT: "#f7f7f7",
         DARKWHITE: "#000000",
-        GRAY: "#e0e0e0",
+        GRAY: "#efefef",
       });
       AsyncStorage.setItem("Theme", "light");
       setCheckedDeuteranopia(false);
@@ -50,9 +50,9 @@ export default function Config() {
         PRIMARY: "#058ed9",
         SECONDARY: "#cc2d35",
         THIRD: "#e1daae",
-        LIGHT: "#f0f0f0",
+        LIGHT: "#f7f7f7",
         DARKWHITE: "#000000",
-        GRAY: "#e0e0e0",
+        GRAY: "#efefef",
       });
       AsyncStorage.setItem("Theme", "deuteranopia");
       setCheckedDeuteranopia(true);
